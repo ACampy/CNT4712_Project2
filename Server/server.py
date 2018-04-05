@@ -5,7 +5,7 @@ import User
 #Jorge Smells
 
 class Server:
-    SERVER_CONFIG = {"MAX_CONNECTIONS": 4}
+    SERVER_CONFIG = {"MAX_CONNECTIONS": 10}
 
     def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3):
         self.address = (host, port)
