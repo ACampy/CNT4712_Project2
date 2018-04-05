@@ -2,6 +2,7 @@ import socket
 import sys
 import threading
 import User
+#Jorge Smells
 
 class Server:
     SERVER_CONFIG = {"MAX_CONNECTIONS": 10}
