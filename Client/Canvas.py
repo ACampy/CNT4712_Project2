@@ -1,28 +1,4 @@
-""""Paint program by Dave Michell.
-
-Subject: tkinter "paint" example
-From: Dave Mitchell <davem@magnet.com>
-To: python-list@cwi.nl
-Date: Fri, 23 Jan 1998 12:18:05 -0500 (EST)
-
-  Not too long ago (last week maybe?) someone posted a request
-for an example of a paint program using Tkinter. Try as I might
-I can't seem to find it in the archive, so i'll just post mine
-here and hope that the person who requested it sees this!
-
-  All this does is put up a canvas and draw a smooth black line
-whenever you have the mouse button down, but hopefully it will
-be enough to start with.. It would be easy enough to add some
-options like other shapes or colors...
-
-                                                yours,
-                                                dave mitchell
-                                                davem@magnet.com
-"""
-
 from tkinter import *
-
-"""paint.py: not exactly a paint program.. just a smooth line drawing demo."""
 
 b1 = "up"
 xold, yold = None, None
