@@ -2,28 +2,33 @@ from tkinter import *
 
 b1 = "up"
 xold, yold = None, None
-color = "blue"
+color = "black"
 
 class GUI:
     def __init__(self, master):
         self.master = master
         master.title("A simple GUI")
 
+        
+
         self.label = Label(master, text="Paint")
+        self.label.grid(columnspan = 2, sticky = W)
         self.label.pack()
 
         self.buttonRed = Button(master, text="Red", command=changeRed)
         self.buttonRed.pack()
 
         self.close_button = Button(master, text="Close", command=master.quit)
-        self.close_button.pack()
+        # self.close_button.grid(row = 1, column = 1)
+        self.close_button.pack(side = RIGHT)
         
-    
+
 
 def main():
     
     root = Tk()
     my_gui = GUI(root)  #my_gui needed???
+    # frame = Tk.Frame()
     drawing_area = Canvas(root)
     drawing_area.pack()
     drawing_area.bind("<Motion>", motion)
