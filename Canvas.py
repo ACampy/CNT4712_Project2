@@ -67,6 +67,7 @@ def b1up(event):
     yold = None
 
 def motion(event):
+    global color
     if b1 == "down":
         global xold, yold
         if xold is not None and yold is not None:
@@ -76,6 +77,7 @@ def motion(event):
         yold = event.y
 
 def changeRed():
+        global color
         color = "red"
         print("Color changed to Red")
 
