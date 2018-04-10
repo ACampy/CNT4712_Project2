@@ -20,6 +20,45 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+#default color
+color = "black"
+
+def changeRed():
+    global color
+    color = "red"
+    print('attempt_support.changeRed')
+    sys.stdout.flush()
+
+def changeBlack():
+    global color
+    color = "black"
+    print('attempt_support.changeBlack')
+    sys.stdout.flush()
+
+def changeBlue():
+    global color
+    color = "blue"
+    print('attempt_support.changeBlue')
+    sys.stdout.flush()
+
+def changeWhite():
+    global color
+    color = "white"
+    print('attempt_support.changeWhite')
+    sys.stdout.flush()
+
+def changeGray():
+    global color
+    color = "gray"
+    print('attempt_support.changeGray')
+    sys.stdout.flush()
+
+def changeYellow():
+    global color
+    color = "yellow"
+    print('attempt_support.changeYellow')
+    sys.stdout.flush()
+
 def connect():
     print('attempt_support.connect')
     sys.stdout.flush()
@@ -40,8 +79,47 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
+#Drawing code starts here
+b1 = "up"
+xold, yold = None, None
+
+def b1down(event):
+    global b1
+    b1 = "down"           # you only want to draw when the button is down
+                          # because "Motion" events happen -all the time-
+
+def b1up(event):
+    global b1, xold, yold
+    b1 = "up"
+    xold = None           # reset the line when you let go of the button
+    yold = None
+
+def motion(event):
+    global color
+    if b1 == "down":
+        global xold, yold
+        if xold is not None and yold is not None:
+            event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, fill=color)
+                          # here's where you draw it. smooth. neat.
+        xold = event.x
+        yold = event.y
+
+def main():
+    
+    # root = Tk()
+    # my_gui = GUI(root)  #my_gui needed???
+    # frame = Tk.Frame()
+    drawing_area = Canvas(root)
+    drawing_area.pack()
+    drawing_area.bind("<Motion>", motion)
+    drawing_area.bind("<ButtonPress-1>", b1down)
+    drawing_area.bind("<ButtonRelease-1>", b1up)
+    print("drawing test")
+    root.mainloop()
+#Drawing code ends here
+
 if __name__ == '__main__':
     import attempt
     attempt.vp_start_gui()
-
+    main()
 
