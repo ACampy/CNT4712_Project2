@@ -47,10 +47,10 @@ def changeWhite():
     print('attempt_support.changeWhite')
     sys.stdout.flush()
 
-def changeGray():
+def changeGreen():
     global color
-    color = "gray"
-    print('attempt_support.changeGray')
+    color = "#00ff00"
+    print('attempt_support.changeGreen')
     sys.stdout.flush()
 
 def changeYellow():

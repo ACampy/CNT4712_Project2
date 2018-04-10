@@ -94,6 +94,12 @@ def main():
 
 #Circle ends here **************************************************************************
 
+#Draw line
+def drawLine():
+    Canvas1 = Canvas()
+    Canvas1.create_line(15, 25, 200, 25, color = "red")
+    print("draw line")
+
 class New_Toplevel:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
@@ -167,11 +173,11 @@ class New_Toplevel:
         self.ButtonWhite.configure(background="#ffffff")
         self.ButtonWhite.configure(command=attempt_support.changeWhite)
 
-        self.ButtonGray = Button(top)
-        self.ButtonGray.place(relx=0.95, rely=0.21, height=26, width=26)
-        self.ButtonGray.configure(activebackground="#d9d9d9")
-        self.ButtonGray.configure(background="#787878")
-        self.ButtonGray.configure(command=attempt_support.changeGray)
+        self.ButtonGreen = Button(top)
+        self.ButtonGreen.place(relx=0.95, rely=0.21, height=26, width=26)
+        self.ButtonGreen.configure(activebackground="#d9d9d9")
+        self.ButtonGreen.configure(background="#00ff00")
+        self.ButtonGreen.configure(command=attempt_support.changeGreen)
         
         self.ButtonYellow = Button(top)
         self.ButtonYellow.place(relx=0.95, rely=0.49, height=26, width=26)
@@ -191,6 +197,7 @@ class New_Toplevel:
 
 if __name__ == '__main__':
     vp_start_gui()
+    # drawLine()
     #main()
     # attempt_support.main()
 
