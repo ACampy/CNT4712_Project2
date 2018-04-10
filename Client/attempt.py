@@ -43,7 +43,7 @@ def destroy_New_Toplevel():
     w.destroy()
     w = None
 
-#Drawing code starts here
+#Drawing code starts here ***************************************************************
 # color = "black"
 b1 = "up"
 xold, yold = None, None
@@ -81,7 +81,18 @@ def main():
     drawing_area.bind("<ButtonRelease-1>", b1up)
     print("drawing test")
     root.mainloop()
-#Drawing code ends here
+    
+#Drawing code ends here ********************************************************************
+
+#Circle tool********************************************************************************
+# t= ttk.Tk()
+
+# def createCircle(self, x, y, r, **kwargs):
+    
+#     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
+# Tk.Canvas.create_circle = createCircle
+
+#Circle ends here **************************************************************************
 
 class New_Toplevel:
     def __init__(self, top=None):
@@ -93,8 +104,8 @@ class New_Toplevel:
         _ana1color = '#d9d9d9' # X11 color: 'gray85' 
         _ana2color = '#d9d9d9' # X11 color: 'gray85' 
 
-        top.geometry("600x450+640+112")
-        top.title("New Toplevel")
+        top.geometry("800x450+629+228")
+        top.title("Collaborative Paint")
         top.configure(highlightcolor="black")
 
 
@@ -120,7 +131,7 @@ class New_Toplevel:
                 label="Quit")
 
         self.Canvas1 = Canvas(top)
-        self.Canvas1.place(relx=0.1, rely=0.09, relheight=0.85, relwidth=0.85)
+        self.Canvas1.place(relx=0.23, rely=0.13, relheight=0.85, relwidth=0.71)
         self.Canvas1.configure(background="#ffffff")
         self.Canvas1.configure(borderwidth="2")
         self.Canvas1.configure(relief=RIDGE)
@@ -133,40 +144,46 @@ class New_Toplevel:
         print("drawing test")
 
         self.ButtonRed = Button(top)
-        self.ButtonRed.place(relx=0.95, rely=0.31, height=26, width=27)
+        self.ButtonRed.place(relx=0.95, rely=0.35, height=26, width=26)
         self.ButtonRed.configure(activebackground="#d9d9d9")
         self.ButtonRed.configure(background="#d90000")
         self.ButtonRed.configure(command=attempt_support.changeRed)
 
         self.ButtonBlack = Button(top)
-        self.ButtonBlack.place(relx=0.95, rely=0.11, height=26, width=27)
+        self.ButtonBlack.place(relx=0.95, rely=0.14, height=26, width=26)
         self.ButtonBlack.configure(activebackground="#d9d9d9")
         self.ButtonBlack.configure(background="#000000")
         self.ButtonBlack.configure(command=attempt_support.changeBlack)
 
         self.ButtonBlue = Button(top)
-        self.ButtonBlue.place(relx=0.95, rely=0.38, height=26, width=27)
+        self.ButtonBlue.place(relx=0.95, rely=0.42, height=26, width=26)
         self.ButtonBlue.configure(activebackground="#d9d9d9")
         self.ButtonBlue.configure(background="#0000ff")
         self.ButtonBlue.configure(command=attempt_support.changeBlue)
 
         self.ButtonWhite = Button(top)
-        self.ButtonWhite.place(relx=0.95, rely=0.24, height=26, width=27)
+        self.ButtonWhite.place(relx=0.95, rely=0.28, height=26, width=26)
         self.ButtonWhite.configure(activebackground="#d9d9d9")
         self.ButtonWhite.configure(background="#ffffff")
         self.ButtonWhite.configure(command=attempt_support.changeWhite)
 
         self.ButtonGray = Button(top)
-        self.ButtonGray.place(relx=0.95, rely=0.18, height=26, width=27)
+        self.ButtonGray.place(relx=0.95, rely=0.21, height=26, width=26)
         self.ButtonGray.configure(activebackground="#d9d9d9")
         self.ButtonGray.configure(background="#787878")
         self.ButtonGray.configure(command=attempt_support.changeGray)
         
         self.ButtonYellow = Button(top)
-        self.ButtonYellow.place(relx=0.95, rely=0.44, height=26, width=27)
+        self.ButtonYellow.place(relx=0.95, rely=0.49, height=26, width=26)
         self.ButtonYellow.configure(activebackground="#d9d9d9")
         self.ButtonYellow.configure(background="#ffff00")
         self.ButtonYellow.configure(command=attempt_support.changeYellow)
+
+        self.Entry1 = Entry(top)
+        self.Entry1.place(relx=0.01, rely=0.93,height=20, relwidth=0.2)
+        self.Entry1.configure(background="white")
+        self.Entry1.configure(font="TkFixedFont")
+        self.Entry1.configure(width=156)
 
 
 
@@ -174,7 +191,7 @@ class New_Toplevel:
 
 if __name__ == '__main__':
     vp_start_gui()
-    main()
-    attempt_support.main()
+    #main()
+    # attempt_support.main()
 
 
