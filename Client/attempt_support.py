@@ -20,6 +20,45 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+#default color
+color = "black"
+
+def changeRed():
+    global color
+    color = "red"
+    print('attempt_support.changeRed')
+    sys.stdout.flush()
+
+def changeBlack():
+    global color
+    color = "black"
+    print('attempt_support.changeBlack')
+    sys.stdout.flush()
+
+def changeBlue():
+    global color
+    color = "blue"
+    print('attempt_support.changeBlue')
+    sys.stdout.flush()
+
+def changeWhite():
+    global color
+    color = "white"
+    print('attempt_support.changeWhite')
+    sys.stdout.flush()
+
+def changeGray():
+    global color
+    color = "gray"
+    print('attempt_support.changeGray')
+    sys.stdout.flush()
+
+def changeYellow():
+    global color
+    color = "yellow"
+    print('attempt_support.changeYellow')
+    sys.stdout.flush()
+
 def connect():
     print('attempt_support.connect')
     sys.stdout.flush()
