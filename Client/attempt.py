@@ -44,6 +44,7 @@ def destroy_New_Toplevel():
     w = None
 
 #Drawing code starts here
+# color = "black"
 b1 = "up"
 xold, yold = None, None
 
@@ -59,7 +60,7 @@ def b1up(event):
     yold = None
 
 def motion(event):
-    global color
+    from attempt_support import color
     if b1 == "down":
         global xold, yold
         if xold is not None and yold is not None:
@@ -118,7 +119,6 @@ class New_Toplevel:
                 foreground="#000000",
                 label="Quit")
 
-
         self.Canvas1 = Canvas(top)
         self.Canvas1.place(relx=0.1, rely=0.09, relheight=0.85, relwidth=0.85)
         self.Canvas1.configure(background="#ffffff")
@@ -126,6 +126,11 @@ class New_Toplevel:
         self.Canvas1.configure(relief=RIDGE)
         self.Canvas1.configure(selectbackground="#c4c4c4")
         self.Canvas1.configure(width=511)
+        # self.Canvas1.pack()
+        self.Canvas1.bind("<Motion>", motion)
+        self.Canvas1.bind("<ButtonPress-1>", b1down)
+        self.Canvas1.bind("<ButtonRelease-1>", b1up)
+        print("drawing test")
 
         self.ButtonRed = Button(top)
         self.ButtonRed.place(relx=0.95, rely=0.31, height=26, width=27)
@@ -170,5 +175,6 @@ class New_Toplevel:
 if __name__ == '__main__':
     vp_start_gui()
     main()
+    attempt_support.main()
 
 
