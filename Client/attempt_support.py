@@ -22,6 +22,7 @@ except ImportError:
 
 #default color
 color = "black"
+thicc = 1
 
 def changeRed():
     global color
@@ -57,6 +58,12 @@ def changeYellow():
     global color
     color = "yellow"
     print('attempt_support.changeYellow')
+    sys.stdout.flush()
+
+def scaleSize(*args):
+    global thicc
+    print('attempt_support.scaleSize')
+    thicc = args
     sys.stdout.flush()
 
 def connect():

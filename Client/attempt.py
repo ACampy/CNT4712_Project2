@@ -20,6 +20,8 @@ except ImportError:
 
 import attempt_support
 
+toolType = 1
+
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
@@ -43,7 +45,7 @@ def destroy_New_Toplevel():
     w.destroy()
     w = None
 
-#Drawing code starts here ***************************************************************
+#Drawing line code starts here ***************************************************************
 # color = "black"
 b1 = "up"
 xold, yold = None, None
@@ -60,11 +62,11 @@ def b1up(event):
     yold = None
 
 def motion(event):
-    from attempt_support import color
+    from attempt_support import color, thicc
     if b1 == "down":
         global xold, yold
         if xold is not None and yold is not None:
-            event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, fill=color)
+            event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, fill=color, width= thicc)
                           # here's where you draw it. smooth. neat.
         xold = event.x
         yold = event.y
@@ -84,13 +86,54 @@ def main():
     
 #Drawing code ends here ********************************************************************
 
-#Circle tool********************************************************************************
-# t= ttk.Tk()
+#Drawing Circle code starts here ***************************************************************
+# color = "black"
+# b1 = "up"
+# xold, yold = None, None
 
-# def createCircle(self, x, y, r, **kwargs):
+# def b1down(event):
+#     global b1
+#     b1 = "down"           # you only want to draw when the button is down
+#                           # because "Motion" events happen -all the time-
+
+# def b1up(event):
+#     global b1, xold, yold
+#     b1 = "up"
+#     xold = None           # reset the line when you let go of the button
+#     yold = None
+
+# def motion(event):
+#     from attempt_support import color
+#     if b1 == "down":
+#         global xold, yold
+#         if xold is not None and yold is not None:
+#             event.widget.create_circle(xold,yold,event.x,event.y,smooth=TRUE, fill=color)
+#                           # here's where you draw it. smooth. neat.
+#         xold = event.x
+#         yold = event.y
+
+# def main():
     
-#     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
-# Tk.Canvas.create_circle = createCircle
+#     # root = Tk()
+#     # my_gui = GUI(root)  #my_gui needed???
+#     # frame = Tk.Frame()
+#     drawing_area = Canvas(root)
+#     drawing_area.pack()
+#     drawing_area.bind("<Motion>", motion)
+#     drawing_area.bind("<ButtonPress-1>", b1down)
+#     drawing_area.bind("<ButtonRelease-1>", b1up)
+#     print("circle test")
+#     root.mainloop()
+    
+#Drawing code ends here ********************************************************************
+
+#Circle tool********************************************************************************
+#t= ttk.Tk()
+
+def createCircle(self, x, y, r, **kwargs):
+    
+    return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
+    Canvas.create_circle = createCircle
 
 #Circle ends here **************************************************************************
 
@@ -190,6 +233,26 @@ class New_Toplevel:
         self.Entry1.configure(background="white")
         self.Entry1.configure(font="TkFixedFont")
         self.Entry1.configure(width=156)
+
+        self.Circle = Button(top)
+        self.Circle.place(relx=0.24, rely=0.02, height=26, width=59)
+        self.Circle.configure(activebackground="#d9d9d9")
+        self.Circle.configure(text='''Circle''')
+        #self.ButtonCircle.configure(command=attempt_support.circle)
+
+        self.ScaleSize = Scale(top)
+        self.ScaleSize.place(relx=0.78, rely=0.0, relwidth=0.13, relheight=0.0
+                , height=55)
+        self.ScaleSize.configure(activebackground="#d9d9d9")
+        self.ScaleSize.configure(command=attempt_support.scaleSize)
+        self.ScaleSize.configure(font="TkTextFont")
+        self.ScaleSize.configure(label="Size")
+        self.ScaleSize.configure(orient="horizontal")
+        self.ScaleSize.configure(troughcolor="#d9d9d9")
+
+
+
+
 
 
 
