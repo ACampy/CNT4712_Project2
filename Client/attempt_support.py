@@ -20,9 +20,22 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-#default color
-color = "black"
-thicc = 1
+
+color = "black"     #default color
+thicc = 1           #default hiccness
+toolType = 1        #default line
+
+def lineTool():
+    global toolType
+    toolType = 1
+    print('attempt_support.lineTool')
+    sys.stdout.flush()
+
+def circleTool():
+    global toolType
+    toolType = 2
+    print('attempt_support.circleTool')
+    sys.stdout.flush()
 
 def changeRed():
     global color

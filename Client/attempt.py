@@ -20,7 +20,7 @@ except ImportError:
 
 import attempt_support
 
-toolType = 1
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -62,12 +62,15 @@ def b1up(event):
     yold = None
 
 def motion(event):
-    from attempt_support import color, thicc
+    from attempt_support import color, thicc, toolType
     if b1 == "down":
         global xold, yold
         if xold is not None and yold is not None:
-            event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, fill=color, width= thicc)
+            if toolType == 1: #line
+                event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, fill=color, width= thicc)
                           # here's where you draw it. smooth. neat.
+            elif toolType == 2: #circle
+                event.widget.create_oval(xold,yold,event.x,event.y, fill=color)
         xold = event.x
         yold = event.y
 
@@ -238,7 +241,7 @@ class New_Toplevel:
         self.Circle.place(relx=0.24, rely=0.02, height=26, width=59)
         self.Circle.configure(activebackground="#d9d9d9")
         self.Circle.configure(text='''Circle''')
-        #self.ButtonCircle.configure(command=attempt_support.circle)
+        self.Circle.configure(command=attempt_support.circleTool)
 
         self.ScaleSize = Scale(top)
         self.ScaleSize.place(relx=0.78, rely=0.0, relwidth=0.13, relheight=0.0
@@ -250,8 +253,11 @@ class New_Toplevel:
         self.ScaleSize.configure(orient="horizontal")
         self.ScaleSize.configure(troughcolor="#d9d9d9")
 
-
-
+        self.Line = Button(top)
+        self.Line.place(relx=0.34, rely=0.02, height=26, width=59)
+        self.Line.configure(activebackground="#d9d9d9")
+        self.Line.configure(text='''Line''')
+        self.Line.configure(command=attempt_support.lineTool)
 
 
 
