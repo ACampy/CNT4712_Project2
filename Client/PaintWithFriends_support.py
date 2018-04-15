@@ -33,63 +33,63 @@ def set_Tk_var():
 def lineTool():
     global toolType
     toolType = 1
-    print('attempt_support.lineTool')
+    print('PaintWithFriends_support.lineTool')
     sys.stdout.flush()
 
 def circleTool():
     global toolType
     toolType = 2
-    print('attempt_support.circleTool')
+    print('PaintWithFriends_support.circleTool')
     sys.stdout.flush()
 
 def changeRed():
     global color
     color = "red"
-    print('attempt_support.changeRed')
+    print('PaintWithFriends_support.changeRed')
     sys.stdout.flush()
 
 def changeBlack():
     global color
     color = "black"
-    print('attempt_support.changeBlack')
+    print('PaintWithFriends_support.changeBlack')
     sys.stdout.flush()
 
 def changeBlue():
     global color
     color = "blue"
-    print('attempt_support.changeBlue')
+    print('PaintWithFriends_support.changeBlue')
     sys.stdout.flush()
 
 def changeWhite():
     global color
     color = "white"
-    print('attempt_support.changeWhite')
+    print('PaintWithFriends_support.changeWhite')
     sys.stdout.flush()
 
 def changeGreen():
     global color
     color = "#00ff00"
-    print('attempt_support.changeGreen')
+    print('PaintWithFriends_support.changeGreen')
     sys.stdout.flush()
 
 def changeYellow():
     global color
     color = "yellow"
-    print('attempt_support.changeYellow')
+    print('PaintWithFriends_support.changeYellow')
     sys.stdout.flush()
 
 def scaleSize(*args): 
     global thicc
-    print('attempt_support.scaleSize')
+    print('PaintWithFriends_support.scaleSize')
     thicc = int(args[0])
     sys.stdout.flush()
 
 def connect():
-    print('attempt_support.connect')
+    print('PaintWithFriends_support.connect')
     sys.stdout.flush()
 
 def quit():
-    print('attempt_support.quit')
+    print('PaintWithFriends_support.quit')
     sys.stdout.flush()
 
 def init(top, gui, *args, **kwargs):
@@ -107,7 +107,7 @@ def destroy_window():
 
 
 if __name__ == '__main__':
-    import attempt
-    attempt.vp_start_gui()
+    import PaintWithFriends
+    PaintWithFriends.vp_start_gui()
     #main()
 

@@ -18,7 +18,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-import attempt_support
+import PaintWithFriends_support
 
 
 
@@ -27,7 +27,7 @@ def vp_start_gui():
     global val, w, root
     root = Tk()
     top = New_Toplevel (root)
-    attempt_support.init(root, top)
+    PaintWithFriends_support.init(root, top)
     root.mainloop()
 
 w = None
@@ -37,7 +37,7 @@ def create_New_Toplevel(root, *args, **kwargs):
     rt = root
     w = Toplevel (root)
     top = New_Toplevel (w)
-    attempt_support.init(w, top, *args, **kwargs)
+    PaintWithFriends_support.init(w, top, *args, **kwargs)
     return (w, top)
 
 def destroy_New_Toplevel():
@@ -62,7 +62,7 @@ def b1up(event):
     yold = None
 
 def motion(event):
-    from attempt_support import color, thicc, toolType
+    from PaintWithFriends_support import color, thicc, toolType
     if b1 == "down":
         global xold, yold, color
         if xold is not None and yold is not None:
@@ -117,7 +117,7 @@ def main():
 #     yold = None
 
 # def motion(event):
-#     from attempt_support import color
+#     from PaintWithFriends_support import color
 #     if b1 == "down":
 #         global xold, yold
 #         if xold is not None and yold is not None:
@@ -168,7 +168,7 @@ class New_Toplevel:
         _ana2color = '#d9d9d9' # X11 color: 'gray85' 
 
         top.geometry("800x450+629+228")
-        top.title("Collaborative Paint")
+        top.title("Paint With Friends")
         top.configure(highlightcolor="black")
 
 
@@ -180,7 +180,7 @@ class New_Toplevel:
                 activebackground="#d8d8d8",
                 activeforeground="#000000",
                 background="#d9d9d9",
-                command=attempt_support.connect,
+                command=PaintWithFriends_support.connect,
                 font="TkMenuFont",
                 foreground="#000000",
                 label="Connect")
@@ -188,7 +188,7 @@ class New_Toplevel:
                 activebackground="#d8d8d8",
                 activeforeground="#000000",
                 background="#d9d9d9",
-                command=attempt_support.quit,
+                command=PaintWithFriends_support.quit,
                 font="TkMenuFont",
                 foreground="#000000",
                 label="Quit")
@@ -210,37 +210,37 @@ class New_Toplevel:
         self.ButtonRed.place(relx=0.95, rely=0.35, height=26, width=26)
         self.ButtonRed.configure(activebackground="#d9d9d9")
         self.ButtonRed.configure(background="#d90000")
-        self.ButtonRed.configure(command=attempt_support.changeRed)
+        self.ButtonRed.configure(command=PaintWithFriends_support.changeRed)
 
         self.ButtonBlack = Button(top)
         self.ButtonBlack.place(relx=0.95, rely=0.14, height=26, width=26)
         self.ButtonBlack.configure(activebackground="#d9d9d9")
         self.ButtonBlack.configure(background="#000000")
-        self.ButtonBlack.configure(command=attempt_support.changeBlack)
+        self.ButtonBlack.configure(command=PaintWithFriends_support.changeBlack)
 
         self.ButtonBlue = Button(top)
         self.ButtonBlue.place(relx=0.95, rely=0.42, height=26, width=26)
         self.ButtonBlue.configure(activebackground="#d9d9d9")
         self.ButtonBlue.configure(background="#0000ff")
-        self.ButtonBlue.configure(command=attempt_support.changeBlue)
+        self.ButtonBlue.configure(command=PaintWithFriends_support.changeBlue)
 
         self.ButtonWhite = Button(top)
         self.ButtonWhite.place(relx=0.95, rely=0.28, height=26, width=26)
         self.ButtonWhite.configure(activebackground="#d9d9d9")
         self.ButtonWhite.configure(background="#ffffff")
-        self.ButtonWhite.configure(command=attempt_support.changeWhite)
+        self.ButtonWhite.configure(command=PaintWithFriends_support.changeWhite)
 
         self.ButtonGreen = Button(top)
         self.ButtonGreen.place(relx=0.95, rely=0.21, height=26, width=26)
         self.ButtonGreen.configure(activebackground="#d9d9d9")
         self.ButtonGreen.configure(background="#00ff00")
-        self.ButtonGreen.configure(command=attempt_support.changeGreen)
+        self.ButtonGreen.configure(command=PaintWithFriends_support.changeGreen)
         
         self.ButtonYellow = Button(top)
         self.ButtonYellow.place(relx=0.95, rely=0.49, height=26, width=26)
         self.ButtonYellow.configure(activebackground="#d9d9d9")
         self.ButtonYellow.configure(background="#ffff00")
-        self.ButtonYellow.configure(command=attempt_support.changeYellow)
+        self.ButtonYellow.configure(command=PaintWithFriends_support.changeYellow)
 
         self.Entry1 = Entry(top)
         self.Entry1.place(relx=0.01, rely=0.93,height=20, relwidth=0.2)
@@ -252,13 +252,13 @@ class New_Toplevel:
         self.Circle.place(relx=0.24, rely=0.02, height=26, width=59)
         self.Circle.configure(activebackground="#d9d9d9")
         self.Circle.configure(text='''Circle''')
-        self.Circle.configure(command=attempt_support.circleTool)
+        self.Circle.configure(command=PaintWithFriends_support.circleTool)
 
         self.ScaleSize = Scale(top)
         self.ScaleSize.place(relx=0.78, rely=0.0, relwidth=0.13, relheight=0.0
                 , height=55)
         self.ScaleSize.configure(activebackground="#d9d9d9")
-        self.ScaleSize.configure(command=attempt_support.scaleSize)
+        self.ScaleSize.configure(command=PaintWithFriends_support.scaleSize)
         self.ScaleSize.configure(font="TkTextFont")
         self.ScaleSize.configure(from_="1.0")
         self.ScaleSize.configure(label="Size")
@@ -269,7 +269,7 @@ class New_Toplevel:
         self.Line.place(relx=0.34, rely=0.02, height=26, width=59)
         self.Line.configure(activebackground="#d9d9d9")
         self.Line.configure(text='''Line''')
-        self.Line.configure(command=attempt_support.lineTool)
+        self.Line.configure(command=PaintWithFriends_support.lineTool)
 
 
         #spinbox widget not fuctioning properly
@@ -277,11 +277,11 @@ class New_Toplevel:
         # self.SpinSize.place(relx=0.5, rely=0.07, relheight=0.04, relwidth=0.06)
         # self.SpinSize.configure(activebackground="#f9f9f9")
         # self.SpinSize.configure(background="white")
-        # self.SpinSize.configure(command=attempt_support.scaleSize)
+        # self.SpinSize.configure(command=PaintWithFriends_support.scaleSize)
         # self.SpinSize.configure(from_="1.0")
         # self.SpinSize.configure(highlightbackground="black")
         # self.SpinSize.configure(selectbackground="#c4c4c4")
-        # self.SpinSize.configure(textvariable=attempt_support.scaleSize)
+        # self.SpinSize.configure(textvariable=PaintWithFriends_support.scaleSize)
         # self.SpinSize.configure(to="100.0")
         # self.SpinSize.configure(width=48)
         
@@ -292,6 +292,6 @@ if __name__ == '__main__':
     vp_start_gui()
     # drawLine()
     #main()
-    # attempt_support.main()
+    # PaintWithFriends_support.main()
 
 
