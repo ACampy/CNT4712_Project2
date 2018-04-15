@@ -64,13 +64,24 @@ def b1up(event):
 def motion(event):
     from attempt_support import color, thicc, toolType
     if b1 == "down":
-        global xold, yold
+        global xold, yold, color
         if xold is not None and yold is not None:
             if toolType == 1: #line
-                event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, fill=color, width= thicc)
+                event.widget.create_line(
+                    xold,
+                    yold,
+                    event.x,
+                    event.y,
+                    smooth=TRUE,
+                    fill=color,
+                    width= thicc
+                )
                           # here's where you draw it. smooth. neat.
             elif toolType == 2: #circle
-                event.widget.create_oval(xold,yold,event.x,event.y, fill=color)
+                # print(event.x)
+                # print(event.y)
+                # print(thicc)
+                event.widget.create_oval(event.x - thicc, event.y - thicc, event.x + thicc, event.y + thicc, fill= color, width = "0")
         xold = event.x
         yold = event.y
 
@@ -133,18 +144,18 @@ def main():
 #Circle tool********************************************************************************
 #t= ttk.Tk()
 
-def createCircle(self, x, y, r, **kwargs):
+# def createCircle(self, x, y, r, **kwargs):
     
-    return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
-    Canvas.create_circle = createCircle
+#     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
+#     Canvas.create_circle = createCircle
 
 #Circle ends here **************************************************************************
 
 #Draw line
-def drawLine():
-    Canvas1 = Canvas()
-    Canvas1.create_line(15, 25, 200, 25, color = "red")
-    print("draw line")
+# def drawLine():
+#     Canvas1 = Canvas()
+#     Canvas1.create_line(15, 25, 200, 25, color = "red")
+#     print("draw line")
 
 class New_Toplevel:
     def __init__(self, top=None):
@@ -249,6 +260,7 @@ class New_Toplevel:
         self.ScaleSize.configure(activebackground="#d9d9d9")
         self.ScaleSize.configure(command=attempt_support.scaleSize)
         self.ScaleSize.configure(font="TkTextFont")
+        self.ScaleSize.configure(from_="1.0")
         self.ScaleSize.configure(label="Size")
         self.ScaleSize.configure(orient="horizontal")
         self.ScaleSize.configure(troughcolor="#d9d9d9")

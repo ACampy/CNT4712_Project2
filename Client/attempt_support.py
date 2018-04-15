@@ -76,7 +76,7 @@ def changeYellow():
 def scaleSize(*args):
     global thicc
     print('attempt_support.scaleSize')
-    thicc = args
+    thicc = int(args[0])
     sys.stdout.flush()
 
 def connect():
@@ -99,44 +99,7 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
-# #Drawing code starts here
-# b1 = "up"
-# xold, yold = None, None
 
-# def b1down(event):
-#     global b1
-#     b1 = "down"           # you only want to draw when the button is down
-#                           # because "Motion" events happen -all the time-
-
-# def b1up(event):
-#     global b1, xold, yold
-#     b1 = "up"
-#     xold = None           # reset the line when you let go of the button
-#     yold = None
-
-# def motion(event):
-#     global color
-#     if b1 == "down":
-#         global xold, yold
-#         if xold is not None and yold is not None:
-#             event.widget.create_line(xold,yold,event.x,event.y,smooth=TRUE, fill=color)
-#                           # here's where you draw it. smooth. neat.
-#         xold = event.x
-#         yold = event.y
-
-# def main():
-    
-#     # root = Tk()
-#     # my_gui = GUI(root)  #my_gui needed???
-#     # frame = Tk.Frame()
-#     drawing_area = Canvas(root)
-#     drawing_area.pack()
-#     drawing_area.bind("<Motion>", motion)
-#     drawing_area.bind("<ButtonPress-1>", b1down)
-#     drawing_area.bind("<ButtonRelease-1>", b1up)
-#     print("drawing test")
-#     root.mainloop()
-# #Drawing code ends here
 
 if __name__ == '__main__':
     import attempt
