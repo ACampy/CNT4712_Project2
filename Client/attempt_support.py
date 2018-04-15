@@ -22,7 +22,6 @@ except ImportError:
 
 
 color = "black"     #default color
-thicc = 1           #default hiccness
 thicc = 1           #default thiccness
 toolType = 1        #default line
 spinbox = 1
@@ -79,6 +78,7 @@ def changeYellow():
     print('attempt_support.changeYellow')
     sys.stdout.flush()
 
+def scaleSize(*args): 
     global thicc
     print('attempt_support.scaleSize')
     thicc = int(args[0])

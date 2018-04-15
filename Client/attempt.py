@@ -272,7 +272,19 @@ class New_Toplevel:
         self.Line.configure(command=attempt_support.lineTool)
 
 
-
+        #spinbox widget not fuctioning properly
+        # self.SpinSize = Spinbox(top, from_=1.0, to=100.0)
+        # self.SpinSize.place(relx=0.5, rely=0.07, relheight=0.04, relwidth=0.06)
+        # self.SpinSize.configure(activebackground="#f9f9f9")
+        # self.SpinSize.configure(background="white")
+        # self.SpinSize.configure(command=attempt_support.scaleSize)
+        # self.SpinSize.configure(from_="1.0")
+        # self.SpinSize.configure(highlightbackground="black")
+        # self.SpinSize.configure(selectbackground="#c4c4c4")
+        # self.SpinSize.configure(textvariable=attempt_support.scaleSize)
+        # self.SpinSize.configure(to="100.0")
+        # self.SpinSize.configure(width=48)
+        
 
 
 
