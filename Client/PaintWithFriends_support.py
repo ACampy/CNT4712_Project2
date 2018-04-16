@@ -7,6 +7,8 @@
 
 
 import sys
+import threading
+from socket import *
 
 try:
     from Tkinter import *
@@ -25,6 +27,7 @@ color = "black"     #default color
 thicc = 1           #default thiccness
 toolType = 1        #default line
 spinbox = 1
+client = socket(AF_INET,SOCK_STREAM)
 
 def set_Tk_var():
     global spinbox
@@ -86,10 +89,13 @@ def scaleSize(*args):
 
 def connect():
     print('PaintWithFriends_support.connect')
+    global client
+    client.connect(('localhost',50000))
     sys.stdout.flush()
 
 def quit():
     print('PaintWithFriends_support.quit')
+    destroy_window()
     sys.stdout.flush()
 
 def init(top, gui, *args, **kwargs):
