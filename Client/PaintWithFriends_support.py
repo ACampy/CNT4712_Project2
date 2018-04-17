@@ -32,15 +32,33 @@ spinbox = 1
 client = clientClass.Client()
 
 
-def receive():
+def send():
     global client
-    while True:
+    while client.isClientConnected:
         if client.toSend != "":
             client.send(client.toSend.encode('utf8'))
             client.toSend = ""
-        
-        # state = pickle.dumps(w.Canvas1)
-        # client.sendall(state)
+
+def receive():
+    global client, top_level, w, root
+    while client.isClientConnected:
+        message = client.receive()
+        # print(message)
+        commands = message.split("$")
+        for command in commands:
+            if command != "" and command != "\n":
+                args = command.split("|")
+                tool = args[0]
+                xold = int(args[1])
+                yold = int(args[2])
+                eventx = int(args[3])
+                eventy = int(args[4])
+                color = args[5]
+                thick = int(args[6])
+                if(tool == "Line"):
+                    w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=TRUE, fill=color, width=thick)
+                elif (tool == "Circle"):
+                    w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
 
 def set_Tk_var():
     global spinbox
@@ -107,8 +125,10 @@ def connect():
         print('Already connected!')
     else:
         client.connect('localhost',50000)
-        clientThread = threading.Thread(target=receive)
-        clientThread.start()
+        sendThread = threading.Thread(target=send)
+        recvThread = threading.Thread(target=receive)
+        sendThread.start()
+        recvThread.start()
     sys.stdout.flush()
 
 def quit():

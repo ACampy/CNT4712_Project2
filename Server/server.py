@@ -45,13 +45,9 @@ class Server:
                     user = User.User(clientSocket)
                     user.ip = clientAddress[0]
                     self.users.append(user)
-                    try:
-                        clientThread = threading.Thread(target=self.client_thread, args=(user,))
-                        clientThread.start()
-                        self.client_thread_list.append(clientThread)
-                    except user.socket.timeout:
-                        self.users.remove(user)
-                        user.socket.close()
+                    clientThread = threading.Thread(target=self.client_thread, args=(user,))
+                    clientThread.start()
+                    self.client_thread_list.append(clientThread)
                 except socket.timeout:
                     pass
         except KeyboardInterrupt:
@@ -84,17 +80,14 @@ class Server:
 
             if self.exit_signal.is_set():
                 break
-
-            if not chatMessage:
-                print("Breaking")
-                break
             
             print(chatMessage)
-            self.server_broadcast(chatMessage)
+            self.server_broadcast(chatMessage, user)
         
-    def server_broadcast(self, message):
-        for user in self.users:
-            user.send(message)
+    def server_broadcast(self, message, user):
+        for usr in self.users:
+            if usr != user:
+                usr.send(message)
 
     def quit(self, user):
         # user.socket.sendall('/quit'.encode('utf8'))
