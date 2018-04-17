@@ -45,9 +45,13 @@ class Server:
                     user = User.User(clientSocket)
                     user.ip = clientAddress[0]
                     self.users.append(user)
-                    clientThread = threading.Thread(target=self.client_thread, args=(user,))
-                    clientThread.start()
-                    self.client_thread_list.append(clientThread)
+                    try:
+                        clientThread = threading.Thread(target=self.client_thread, args=(user,))
+                        clientThread.start()
+                        self.client_thread_list.append(clientThread)
+                    except user.socket.timeout:
+                        self.users.remove(user)
+                        user.socket.close()
                 except socket.timeout:
                     pass
         except KeyboardInterrupt:
@@ -59,36 +63,43 @@ class Server:
 
 
     def client_thread(self, user, size=4096):
-        user.send("Please select a nickname to use:")
-        nickname = user.receive(size)
+        # user.send("Please select a nickname to use:")
+        # nickname = user.receive(size)
 
-        while not nickname:
-            user.send("Please select a nickname to use:")
-            username = user.receive(size)
+        # while not nickname:
+        #     user.send("Please select a nickname to use:")
+        #     username = user.receive(size)
         
-        user.nickname = nickname
-        user.send("\nWelcome to NetDraw, {0}".format(user.nickname))
+        # user.nickname = nickname
+        # user.send("\nWelcome to NetDraw, {0}".format(user.nickname))
 
 
         while True:
-            chatMessage = user.receive(size)
+            try:
+                chatMessage = user.receive(size)
+            except ConnectionResetError:
+                quit(user)
+                break
+
 
             if self.exit_signal.is_set():
                 break
 
             if not chatMessage:
+                print("Breaking")
                 break
-
-            self.server_broadcast("{0}: {1}".format(user.nickname, chatMessage))
-
+            
+            print(chatMessage)
+            self.server_broadcast(chatMessage)
+        
     def server_broadcast(self, message):
         for user in self.users:
             user.send(message)
 
     def quit(self, user):
-        user.socket.sendall('/quit'.encode('utf8'))
+        # user.socket.sendall('/quit'.encode('utf8'))
         user.socket.close()
-        self.remove_user(user)
+        self.users.remove(user)
 
     def server_shutdown(self):
         print("Shutting down chat server.\n")

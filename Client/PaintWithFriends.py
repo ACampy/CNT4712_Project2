@@ -62,11 +62,12 @@ def b1up(event):
     yold = None
 
 def motion(event):
-    from PaintWithFriends_support import color, thicc, toolType
+    from PaintWithFriends_support import color, thicc, toolType, client
     if b1 == "down":
-        global xold, yold, color
+        global xold, yold, color, client
         if xold is not None and yold is not None:
             if toolType == 1: #line
+                client.toSend += "$Line|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
                 event.widget.create_line(
                     xold,
                     yold,
@@ -81,6 +82,7 @@ def motion(event):
                 # print(event.x)
                 # print(event.y)
                 # print(thicc)
+                client.toSend += "%Circle|{0}|{1}|{2}|{3}|{4}|{5}%".format(xold,yold,event.x,event.y,color,thicc)
                 event.widget.create_oval(event.x - thicc, event.y - thicc, event.x + thicc, event.y + thicc, fill= color, width = "0")
         xold = event.x
         yold = event.y
@@ -151,7 +153,7 @@ class New_Toplevel:
                 command=PaintWithFriends_support.quit,
                 font="TkMenuFont",
                 foreground="#000000",
-                label="Quit")
+                label="Disconnect")
 
         self.Canvas1 = Canvas(top)
         self.Canvas1.place(relx=0.23, rely=0.13, relheight=0.85, relwidth=0.71)

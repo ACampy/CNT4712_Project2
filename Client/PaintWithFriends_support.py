@@ -9,6 +9,8 @@
 import sys
 import threading
 from socket import *
+import pickle
+import ChatClient as clientClass
 
 try:
     from Tkinter import *
@@ -27,7 +29,18 @@ color = "black"     #default color
 thicc = 1           #default thiccness
 toolType = 1        #default line
 spinbox = 1
-client = socket(AF_INET,SOCK_STREAM)
+client = clientClass.Client()
+
+
+def receive():
+    global client
+    while True:
+        if client.toSend != "":
+            client.send(client.toSend.encode('utf8'))
+            client.toSend = ""
+        
+        # state = pickle.dumps(w.Canvas1)
+        # client.sendall(state)
 
 def set_Tk_var():
     global spinbox
@@ -90,12 +103,17 @@ def scaleSize(*args):
 def connect():
     print('PaintWithFriends_support.connect')
     global client
-    client.connect(('localhost',50000))
+    if client.isClientConnected:
+        print('Already connected!')
+    else:
+        client.connect('localhost',50000)
+        clientThread = threading.Thread(target=receive)
+        clientThread.start()
     sys.stdout.flush()
 
 def quit():
     print('PaintWithFriends_support.quit')
-    destroy_window()
+    client.disconnect()
     sys.stdout.flush()
 
 def init(top, gui, *args, **kwargs):
@@ -107,9 +125,7 @@ def init(top, gui, *args, **kwargs):
 def destroy_window():
     # Function which closes the window.
     global top_level
-    top_level.destroy()
     top_level = None
-
 
 
 if __name__ == '__main__':

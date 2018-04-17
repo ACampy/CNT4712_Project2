@@ -10,7 +10,11 @@ class User:
         self.isAdmin = True
 
     def send(self, message):
-        self.socket.sendall((message+'\n').encode('utf8'))
+        try:
+            self.socket.sendall((message+'\n').encode('utf8'))
+        except ConnectionResetError:
+            pass
 
     def receive(self, size):
-        return self.socket.recv(size).decode('utf8')
+        response = self.socket.recv(size)
+        return response.decode('utf8')
