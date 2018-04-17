@@ -90,9 +90,9 @@ def receive():
                 elif (tool == "Circle"):
                     w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
 
-def set_Tk_var():
-    global spinbox
-    spinbox = StringVar()
+# def set_Tk_var():
+#     global spinbox
+#     spinbox = StringVar()
 
 def lineTool():
     global toolType
