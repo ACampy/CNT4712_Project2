@@ -10,6 +10,7 @@ try:
     from Tkinter import *
 except ImportError:
     from tkinter import *
+    import tkinter as tk
 
 try:
     import ttk
@@ -19,7 +20,6 @@ except ImportError:
     py3 = True
 
 import PaintWithFriends_support
-
 
 
 def vp_start_gui():
@@ -120,6 +120,7 @@ def main():
 #     print("draw line")
 
 class New_Toplevel:
+       
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''

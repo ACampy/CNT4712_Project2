@@ -9,13 +9,13 @@
 import sys
 import threading
 from socket import *
-import pickle
 import ChatClient as clientClass
+import BaseDialog as dialog
 
 try:
     from Tkinter import *
 except ImportError:
-    from tkinter import *
+    import tkinter as tk
 
 try:
     import ttk
@@ -31,6 +31,34 @@ toolType = 1        #default line
 spinbox = 1
 client = clientClass.Client()
 
+class ChatDialog(dialog.BaseDialog):
+    def body(self, master):
+        tk.Label(master, text="Enter host:").grid(row=0, sticky="w")
+        tk.Label(master, text="Enter port:").grid(row=1, sticky="w")
+
+        self.hostEntryField = tk.Entry(master)
+        self.portEntryField = tk.Entry(master)
+
+        self.hostEntryField.grid(row=0, column=1)
+        self.portEntryField.grid(row=1, column=1)
+        return self.hostEntryField
+
+    def validate(self):
+        host = str(self.hostEntryField.get())
+
+        try:
+            port = int(self.portEntryField.get())
+
+            if(port >= 0 and port < 65536):
+                self.result = (host, port)
+                return True
+            else:
+                tk.messagebox.showwarning("Error", "The port number has to be between 0 and 65535. Both values are inclusive.")
+                return False
+        except ValueError:
+            tk.messagebox.showwarning("Error", "The port number has to be an integer.")
+            return False
+
 
 def send():
     global client
@@ -38,7 +66,7 @@ def send():
     client.toSend = ""
     while client.isClientConnected:
         if client.toSend != "":
-            client.send(client.toSend.encode('utf8'))
+            client.send(client.toSend)
             client.toSend = ""
 
 def receive():
@@ -122,15 +150,23 @@ def scaleSize(*args):
 
 def connect():
     print('PaintWithFriends_support.connect')
-    global client
+    global client, root, w, top_level
     if client.isClientConnected:
         print('Already connected!')
     else:
-        client.connect('localhost',50000)
-        sendThread = threading.Thread(target=send)
-        recvThread = threading.Thread(target=receive)
-        sendThread.start()
-        recvThread.start()
+        # client.connect('localhost',50000)
+        import tkinter as tk
+        dialogResult = ChatDialog(root).result
+        if dialogResult:
+            client.connect(dialogResult[0], dialogResult[1])
+
+            if client.isClientConnected:
+                sendThread = threading.Thread(target=send)
+                recvThread = threading.Thread(target=receive)
+                sendThread.start()
+                recvThread.start()
+            else:
+                tk.messagebox.showwarning("Error", "Unable to connect to the server.")
     sys.stdout.flush()
 
 def quit():
