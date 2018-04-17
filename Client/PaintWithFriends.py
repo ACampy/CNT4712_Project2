@@ -82,7 +82,7 @@ def motion(event):
                 # print(event.x)
                 # print(event.y)
                 # print(thicc)
-                client.toSend += "%Circle|{0}|{1}|{2}|{3}|{4}|{5}%".format(xold,yold,event.x,event.y,color,thicc)
+                client.toSend += "$Circle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
                 event.widget.create_oval(event.x - thicc, event.y - thicc, event.x + thicc, event.y + thicc, fill= color, width = "0")
         xold = event.x
         yold = event.y
