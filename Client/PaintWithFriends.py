@@ -63,7 +63,7 @@ def b1up(event):
 
 def motion(event):
     from PaintWithFriends_support import color, thicc, toolType, client
-    if b1 == "down":
+    if b1 == "down" and client.isClientConnected:
         global xold, yold, color, client
         if xold is not None and yold is not None:
             if toolType == 1: #line

@@ -34,6 +34,8 @@ client = clientClass.Client()
 
 def send():
     global client
+    # clear send buffer on new connection
+    client.toSend = ""
     while client.isClientConnected:
         if client.toSend != "":
             client.send(client.toSend.encode('utf8'))
