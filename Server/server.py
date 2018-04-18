@@ -87,7 +87,11 @@ class Server:
     def server_broadcast(self, message, user):
         for usr in self.users:
             if usr != user:
-                usr.send(message)
+                try:
+                    usr.send(message)
+                except ConnectionResetError:
+                    quit(user)
+                    break
 
     def quit(self, user):
         # user.socket.sendall('/quit'.encode('utf8'))

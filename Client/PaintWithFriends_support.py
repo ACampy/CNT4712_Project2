@@ -8,6 +8,7 @@
 
 import sys
 import threading
+import select
 from socket import *
 import ChatClient as clientClass
 import BaseDialog as dialog
@@ -72,23 +73,25 @@ def send():
 def receive():
     global client, top_level, w, root
     while client.isClientConnected:
-        message = client.receive()
+        r, _, _ = select.select([client.clientSocket], [], [])
         # print(message)
-        commands = message.split("$")
-        for command in commands:
-            if command != "" and command != "\n":
-                args = command.split("|")
-                tool = args[0]
-                xold = int(args[1])
-                yold = int(args[2])
-                eventx = int(args[3])
-                eventy = int(args[4])
-                color = args[5]
-                thick = int(args[6])
-                if(tool == "Line"):
-                    w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=TRUE, fill=color, width=thick)
-                elif (tool == "Circle"):
-                    w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
+        if r:
+            message = client.receive(4096)
+            commands = message.split("$")
+            for command in commands:
+                if command != "" and command != "\n":
+                    args = command.split("|")
+                    tool = args[0]
+                    xold = int(args[1])
+                    yold = int(args[2])
+                    eventx = int(args[3])
+                    eventy = int(args[4])
+                    color = args[5]
+                    thick = int(args[6])
+                    if(tool == "Line"):
+                        w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
+                    elif (tool == "Circle"):
+                        w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
 
 # def set_Tk_var():
 #     global spinbox

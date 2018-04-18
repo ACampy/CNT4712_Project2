@@ -64,7 +64,7 @@ def b1up(event):
 def motion(event):
     from PaintWithFriends_support import color, thicc, toolType, client
     if b1 == "down" and client.isClientConnected:
-        global xold, yold, color, client
+        global xold, yold, color
         if xold is not None and yold is not None:
             if toolType == 1: #line
                 client.toSend += "$Line|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
@@ -73,7 +73,7 @@ def motion(event):
                     yold,
                     event.x,
                     event.y,
-                    smooth=TRUE,
+                    smooth=1,
                     fill=color,
                     width= thicc
                 )
