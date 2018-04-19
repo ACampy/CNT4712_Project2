@@ -83,16 +83,19 @@ def receive():
                     args = command.split("|")
                     tool = args[0]
                     if tool == "Line" or tool == "Circle":
-                        xold = int(args[1])
-                        yold = int(args[2])
-                        eventx = int(args[3])
-                        eventy = int(args[4])
-                        color = args[5]
-                        thick = int(args[6])
-                        if(tool == "Line"):
-                            w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
-                        elif (tool == "Circle"):
-                            w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
+                        try:
+                            xold = int(args[1])
+                            yold = int(args[2])
+                            eventx = int(args[3])
+                            eventy = int(args[4])
+                            color = args[5]
+                            thick = int(args[6])
+                            if(tool == "Line"):
+                                w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
+                            elif (tool == "Circle"):
+                                w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
+                        except ValueError:
+                            pass
                     else:
                         w.ChatBox.insert(tk.INSERT, command)
 
