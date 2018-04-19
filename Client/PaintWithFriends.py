@@ -164,6 +164,15 @@ class New_Toplevel:
                 font="TkMenuFont",
                 foreground="#000000",
                 label="Disconnect")
+        self.menubar.add_command(
+                activebackground="#d8d8d8",
+                activeforeground="#000000",
+                background="#d9d9d9",
+                command=PaintWithFriends_support.clean,
+                compound="left",
+                font="TkMenuFont",
+                foreground="#000000",
+                label="Clear Canvas")
 
         self.Canvas1 = Canvas(top)
         self.Canvas1.place(relx=0.23, rely=0.13, relheight=0.85, relwidth=0.71)
@@ -222,7 +231,7 @@ class New_Toplevel:
         self.Entry1.bind("<Return>", Enter_pressed)
 
         self.Circle = Button(top)
-        self.Circle.place(relx=0.24, rely=0.02, height=26, width=59)
+        self.Circle.place(relx=0.24, rely=0.04, height=26, width=59)
         self.Circle.configure(activebackground="#d9d9d9")
         self.Circle.configure(text='''Circle''')
         self.Circle.configure(command=PaintWithFriends_support.circleTool)
@@ -239,7 +248,7 @@ class New_Toplevel:
         self.ScaleSize.configure(troughcolor="#d9d9d9")
 
         self.Line = Button(top)
-        self.Line.place(relx=0.34, rely=0.02, height=26, width=59)
+        self.Line.place(relx=0.34, rely=0.04, height=26, width=59)
         self.Line.configure(activebackground="#d9d9d9")
         self.Line.configure(text='''Line''')
         self.Line.configure(command=PaintWithFriends_support.lineTool)
