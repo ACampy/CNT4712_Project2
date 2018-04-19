@@ -82,16 +82,19 @@ def receive():
                 if command != "" and command != "\n":
                     args = command.split("|")
                     tool = args[0]
-                    xold = int(args[1])
-                    yold = int(args[2])
-                    eventx = int(args[3])
-                    eventy = int(args[4])
-                    color = args[5]
-                    thick = int(args[6])
-                    if(tool == "Line"):
-                        w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
-                    elif (tool == "Circle"):
-                        w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
+                    if tool == "Line" or tool == "Circle":
+                        xold = int(args[1])
+                        yold = int(args[2])
+                        eventx = int(args[3])
+                        eventy = int(args[4])
+                        color = args[5]
+                        thick = int(args[6])
+                        if(tool == "Line"):
+                            w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
+                        elif (tool == "Circle"):
+                            w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
+                    else:
+                        w.ChatBox.insert(tk.INSERT, command)
 
 # def set_Tk_var():
 #     global spinbox
@@ -173,7 +176,11 @@ def connect():
     sys.stdout.flush()
 
 def quit():
+    global w
     print('PaintWithFriends_support.quit')
+    client.send("/Quit")
+    w.Canvas1.delete("all")
+    w.ChatBox.delete('1.0', tk.END)
     client.disconnect()
     sys.stdout.flush()
 

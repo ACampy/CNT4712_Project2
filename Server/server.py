@@ -6,15 +6,12 @@ import User
 class Server:
     SERVER_CONFIG = {"MAX_CONNECTIONS": 10}
 
-    def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3):
+    def __init__(self, host=socket.gethostbyname('localhost'), port =50001, allowReuseAddress=True, timeout = 3):
         self.address = (host, port)
         self.client_thread_list = [] # A list of all threads that are either running or have finished their task.
         self.users = [] # A list of all the users who are connected to the server.
         self.exit_signal = threading.Event()
-        #todo:
-        # Something to keep track of current canvas state
-        # A way to reorganize messages sent between client/server so that control messages are seperate from user messages
-        # 
+        self.state = ''
 
         try:
             self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -59,15 +56,16 @@ class Server:
 
 
     def client_thread(self, user, size=4096):
-        # user.send("Please select a nickname to use:")
-        # nickname = user.receive(size)
+        user.send("Please select a nickname:")
+        nickname = user.receive(size)
 
-        # while not nickname:
-        #     user.send("Please select a nickname to use:")
-        #     username = user.receive(size)
+        while not nickname and ("$Line" not in nickname or "$Circle" not in nickname):
+            user.send("Please select a nickname:")
+            username = user.receive(size)
         
-        # user.nickname = nickname
-        # user.send("\nWelcome to NetDraw, {0}".format(user.nickname))
+        user.nickname = nickname
+        user.send("\nWelcome to \nPaint With Friends, {0}".format(user.nickname))
+        user.send(self.state)
 
 
         while True:
@@ -77,14 +75,23 @@ class Server:
                 quit(user)
                 break
 
-
             if self.exit_signal.is_set():
                 break
-            
-            print(chatMessage)
-            self.server_broadcast(chatMessage, user)
+
+            if chatMessage == "/Quit":
+                quit(user)
+                break
+
+            stripped = chatMessage.strip()
+            # print(chatMessage)
+            if("$Circle" in chatMessage or "$Line" in chatMessage):
+                self.state += chatMessage
+                self.server_broadcast_command(chatMessage, user)
+            else:
+                # print("###{0}###".format(chatMessage))
+                self.server_broadcast(chatMessage, user)
         
-    def server_broadcast(self, message, user):
+    def server_broadcast_command(self, message, user):
         for usr in self.users:
             if usr != user:
                 try:
@@ -92,6 +99,15 @@ class Server:
                 except ConnectionResetError:
                     quit(user)
                     break
+
+    def server_broadcast(self, message, user):
+        for usr in self.users:
+            try:
+                usr.send("{0}: {1}".format(user.nickname, message))
+            except ConnectionResetError:
+                quit(user)
+                break
+
 
     def quit(self, user):
         # user.socket.sendall('/quit'.encode('utf8'))

@@ -21,10 +21,10 @@ except ImportError:
 
 import PaintWithFriends_support
 
-
+top = None
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
-    global val, w, root
+    global val, w, root, top
     root = Tk()
     top = New_Toplevel (root)
     PaintWithFriends_support.init(root, top)
@@ -49,6 +49,17 @@ def destroy_New_Toplevel():
 # color = "black"
 b1 = "up"
 xold, yold = None, None
+input_user = ''
+
+def Enter_pressed(event):
+    from PaintWithFriends_support import client
+    global input_user
+    input_get = event.widget.get()
+    client.toSend += input_get.lower()
+    input_user = ''
+    input_get = ''
+    event.widget.delete(0,END)
+    return "break"
 
 def b1down(event):
     global b1
@@ -120,7 +131,7 @@ def main():
 #     print("draw line")
 
 class New_Toplevel:
-       
+    global input_user    
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -133,8 +144,6 @@ class New_Toplevel:
         top.geometry("800x450+629+228")
         top.title("Paint With Friends")
         top.configure(highlightcolor="black")
-
-
 
         self.menubar = Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
         top.configure(menu = self.menubar)
@@ -205,11 +214,12 @@ class New_Toplevel:
         self.ButtonYellow.configure(background="#ffff00")
         self.ButtonYellow.configure(command=PaintWithFriends_support.changeYellow)
 
-        self.Entry1 = Entry(top)
+        self.Entry1 = Entry(top, text=input_user)
         self.Entry1.place(relx=0.01, rely=0.93,height=20, relwidth=0.2)
         self.Entry1.configure(background="white")
         self.Entry1.configure(font="TkFixedFont")
         self.Entry1.configure(width=156)
+        self.Entry1.bind("<Return>", Enter_pressed)
 
         self.Circle = Button(top)
         self.Circle.place(relx=0.24, rely=0.02, height=26, width=59)
@@ -234,20 +244,13 @@ class New_Toplevel:
         self.Line.configure(text='''Line''')
         self.Line.configure(command=PaintWithFriends_support.lineTool)
 
-
-        #spinbox widget not fuctioning properly
-        # self.SpinSize = Spinbox(top, from_=1.0, to=100.0)
-        # self.SpinSize.place(relx=0.5, rely=0.07, relheight=0.04, relwidth=0.06)
-        # self.SpinSize.configure(activebackground="#f9f9f9")
-        # self.SpinSize.configure(background="white")
-        # self.SpinSize.configure(command=PaintWithFriends_support.scaleSize)
-        # self.SpinSize.configure(from_="1.0")
-        # self.SpinSize.configure(highlightbackground="black")
-        # self.SpinSize.configure(selectbackground="#c4c4c4")
-        # self.SpinSize.configure(textvariable=PaintWithFriends_support.scaleSize)
-        # self.SpinSize.configure(to="100.0")
-        # self.SpinSize.configure(width=48)
-        
+        self.ChatBox = Text(top)
+        self.ChatBox.place(relx=0.01, rely=0.13, relheight=0.78, relwidth=0.2)
+        self.ChatBox.configure(background="white")
+        self.ChatBox.configure(font="TkTextFont")
+        self.ChatBox.configure(selectbackground="#c4c4c4")
+        self.ChatBox.configure(width=146)
+        self.ChatBox.configure(wrap=WORD) 
 
 
 
