@@ -96,7 +96,7 @@ def receive():
                                 w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
                         except (ValueError, IndexError):
                             pass
-                    elif "Line" not in command and "Circle" not in command:
+                    elif "Line" not in command and "Circle" not in command and '|' not in command:
                         w.ChatBox.insert(tk.INSERT, command)
                         w.ChatBox.see(tk.END)
 

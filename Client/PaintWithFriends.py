@@ -55,7 +55,8 @@ def Enter_pressed(event):
     from PaintWithFriends_support import client
     global input_user
     input_get = event.widget.get()
-    client.toSend += input_get.lower()
+    if ('|' not in input_get):
+        client.toSend += input_get.lower()
     input_user = ''
     input_get = ''
     event.widget.delete(0,END)
