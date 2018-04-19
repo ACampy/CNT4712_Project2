@@ -94,10 +94,11 @@ def receive():
                                 w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
                             elif (tool == "Circle"):
                                 w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
-                        except ValueError:
+                        except (ValueError, IndexError):
                             pass
-                    else:
+                    elif "Line" not in command and "Circle" not in command:
                         w.ChatBox.insert(tk.INSERT, command)
+                        w.ChatBox.see(tk.END)
 
 # def set_Tk_var():
 #     global spinbox
@@ -197,6 +198,8 @@ def destroy_window():
     # Function which closes the window.
     global top_level
     top_level = None
+    client.send("/Quit")
+    client.disconnect()
 
 
 if __name__ == '__main__':

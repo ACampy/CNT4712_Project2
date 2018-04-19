@@ -1,4 +1,5 @@
 import socket 
+import sys
 
 class Client:
     def __init__(self):
