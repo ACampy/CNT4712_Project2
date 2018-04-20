@@ -217,18 +217,23 @@ def connect():
 def quit():
     global w
     print('PaintWithFriends_support.quit')
-    client.send("/Quit")
-    w.Canvas1.delete("all")
-    w.ChatBox.delete('1.0', tk.END)
-    client.disconnect()
+    if client.isClientConnected and tkinter.messagebox.askyesno("Disconnect", "Are you sure you want to disconnect?"):
+        client.send("/Quit")
+        w.Canvas1.delete("all")
+        w.ChatBox.delete('1.0', tk.END)
+        client.disconnect()
+    elif not client.isClientConnected:
+        tkinter.messagebox.showwarning("Error", "You are not connected to a server.")
     sys.stdout.flush()
 
 def clean():
     global client
     print('attempt_support.clean')
-    if tkinter.messagebox.askyesno("Clear Canvas", "Are you sure you want to clear the canvas?\nThis cannot be undone!"):
+    if client.isClientConnected and tkinter.messagebox.askyesno("Clear Canvas", "Are you sure you want to clear the canvas?\nThis cannot be undone!"):
         w.Canvas1.delete("all")
         client.toSend += "$Clear$"
+    elif not client.isClientConnected:
+        tkinter.messagebox.showwarning("Error", "You must be connected to a server to preform this action.")
     sys.stdout.flush()
 
 def init(top, gui, *args, **kwargs):

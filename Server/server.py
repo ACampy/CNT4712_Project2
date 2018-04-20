@@ -6,7 +6,7 @@ import User
 class Server:
     SERVER_CONFIG = {"MAX_CONNECTIONS": 10}
 
-    def __init__(self, host=socket.gethostbyname('localhost'), port =50001, allowReuseAddress=True, timeout = 3):
+    def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3):
         self.address = (host, port)
         self.client_thread_list = [] # A list of all threads that are either running or have finished their task.
         self.users = [] # A list of all the users who are connected to the server.
