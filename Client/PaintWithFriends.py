@@ -179,6 +179,7 @@ class New_Toplevel:
         self.Canvas1.place(relx=0.23, rely=0.13, relheight=0.85, relwidth=0.71)
         self.Canvas1.configure(background="#ffffff")
         self.Canvas1.configure(borderwidth="2")
+        self.Canvas1.configure(cursor="pencil")
         self.Canvas1.configure(relief=RIDGE)
         self.Canvas1.configure(selectbackground="#c4c4c4")
         self.Canvas1.configure(width=511)
@@ -188,32 +189,34 @@ class New_Toplevel:
         self.Canvas1.bind("<ButtonRelease-1>", b1up)
         print("drawing test")
 
+        #Color Buttons ***************************************************************
+
+        self.ButtonWhite = Button(top)
+        self.ButtonWhite.place(relx=0.95, rely=0.14, height=26, width=26)
+        self.ButtonWhite.configure(activebackground="#d9d9d9")
+        self.ButtonWhite.configure(background="#ffffff")
+        self.ButtonWhite.configure(command=PaintWithFriends_support.changeWhite)
+        
+        self.ButtonBlack = Button(top)
+        self.ButtonBlack.place(relx=0.95, rely=0.21, height=26, width=26)
+        self.ButtonBlack.configure(activebackground="#d9d9d9")
+        self.ButtonBlack.configure(background="#000000")
+        self.ButtonBlack.configure(command=PaintWithFriends_support.changeBlack)
+        
         self.ButtonRed = Button(top)
-        self.ButtonRed.place(relx=0.95, rely=0.35, height=26, width=26)
+        self.ButtonRed.place(relx=0.95, rely=0.28, height=26, width=26)
         self.ButtonRed.configure(activebackground="#d9d9d9")
         self.ButtonRed.configure(background="#d90000")
         self.ButtonRed.configure(command=PaintWithFriends_support.changeRed)
 
-        self.ButtonBlack = Button(top)
-        self.ButtonBlack.place(relx=0.95, rely=0.14, height=26, width=26)
-        self.ButtonBlack.configure(activebackground="#d9d9d9")
-        self.ButtonBlack.configure(background="#000000")
-        self.ButtonBlack.configure(command=PaintWithFriends_support.changeBlack)
-
         self.ButtonBlue = Button(top)
-        self.ButtonBlue.place(relx=0.95, rely=0.42, height=26, width=26)
+        self.ButtonBlue.place(relx=0.95, rely=0.35, height=26, width=26)
         self.ButtonBlue.configure(activebackground="#d9d9d9")
         self.ButtonBlue.configure(background="#0000ff")
         self.ButtonBlue.configure(command=PaintWithFriends_support.changeBlue)
 
-        self.ButtonWhite = Button(top)
-        self.ButtonWhite.place(relx=0.95, rely=0.28, height=26, width=26)
-        self.ButtonWhite.configure(activebackground="#d9d9d9")
-        self.ButtonWhite.configure(background="#ffffff")
-        self.ButtonWhite.configure(command=PaintWithFriends_support.changeWhite)
-
         self.ButtonGreen = Button(top)
-        self.ButtonGreen.place(relx=0.95, rely=0.21, height=26, width=26)
+        self.ButtonGreen.place(relx=0.95, rely=0.42, height=26, width=26)
         self.ButtonGreen.configure(activebackground="#d9d9d9")
         self.ButtonGreen.configure(background="#00ff00")
         self.ButtonGreen.configure(command=PaintWithFriends_support.changeGreen)
@@ -224,6 +227,70 @@ class New_Toplevel:
         self.ButtonYellow.configure(background="#ffff00")
         self.ButtonYellow.configure(command=PaintWithFriends_support.changeYellow)
 
+        self.ButtonCyan = Button(top)
+        self.ButtonCyan.place(relx=0.95, rely=0.56, height=26, width=26)
+        self.ButtonCyan.configure(activebackground="#d9d9d9")
+        self.ButtonCyan.configure(background="cyan")
+        self.ButtonCyan.configure(command=PaintWithFriends_support.changeCyan)
+
+        self.ButtonMagenta = Button(top)
+        self.ButtonMagenta.place(relx=0.95, rely=0.63, height=26, width=26)
+        self.ButtonMagenta.configure(activebackground="#d9d9d9")
+        self.ButtonMagenta.configure(background="magenta")
+        self.ButtonMagenta.configure(command=PaintWithFriends_support.changeMagenta)
+
+        #Scale Slider Widget ******************************************************
+        self.ScaleSize = Scale(top)
+        self.ScaleSize.place(relx=0.78, rely=0.0, relwidth=0.13, relheight=0.0
+                , height=55)
+        self.ScaleSize.configure(activebackground="#d9d9d9")
+        self.ScaleSize.configure(command=PaintWithFriends_support.scaleSize)
+        self.ScaleSize.configure(font="TkTextFont")
+        self.ScaleSize.configure(cursor="sb_h_double_arrow")
+        self.ScaleSize.configure(from_="1.0")
+        self.ScaleSize.configure(label="Size")
+        self.ScaleSize.configure(orient="horizontal")
+        self.ScaleSize.configure(troughcolor="#d9d9d9")
+
+        #Brush Type Widgets ********************************************************
+        self.BrushType = LabelFrame(top)
+        self.BrushType.place(relx=0.23, rely=0.01, relheight=0.11, relwidth=0.19)
+        self.BrushType.configure(relief=GROOVE)
+        self.BrushType.configure(text='''Brush Type''')
+        self.BrushType.configure(width=150)
+
+        self.Line = Button(top)
+        self.Line.place(relx=0.33, rely=0.05, height=26, width=59)
+        self.Line.configure(activebackground="#d9d9d9")
+        self.Line.configure(text='''Line''')
+        self.Line.configure(command=PaintWithFriends_support.lineTool)
+
+        self.Circle = Button(top)
+        self.Circle.place(relx=0.24, rely=0.05, height=26, width=59)
+        self.Circle.configure(activebackground="#d9d9d9")
+        self.Circle.configure(text='''Circle''')
+        self.Circle.configure(command=PaintWithFriends_support.circleTool)
+
+        #Shape Widgets **************************************************************
+        self.Shapes = LabelFrame(top)
+        self.Shapes.place(relx=0.45, rely=0.01, relheight=0.11, relwidth=0.3)
+        self.Shapes.configure(relief=GROOVE)
+        self.Shapes.configure(text='''Shapes''')
+        self.Shapes.configure(width=150)
+
+        #Chat Widgets ****************************************************************
+        self.ChatLabel = Label(top)
+        self.ChatLabel.place(relx=0.01, rely=0.09, height=18, width=36)
+        self.ChatLabel.configure(text='''Chat''')
+
+        self.ChatBox = Text(top)
+        self.ChatBox.place(relx=0.01, rely=0.13, relheight=0.8, relwidth=0.2)
+        self.ChatBox.configure(background="white")
+        self.ChatBox.configure(font="TkTextFont")
+        self.ChatBox.configure(selectbackground="#c4c4c4")
+        self.ChatBox.configure(width=146)
+        self.ChatBox.configure(wrap=WORD) 
+
         self.Entry1 = Entry(top, text=input_user)
         self.Entry1.place(relx=0.01, rely=0.93,height=20, relwidth=0.2)
         self.Entry1.configure(background="white")
@@ -231,36 +298,6 @@ class New_Toplevel:
         self.Entry1.configure(width=156)
         self.Entry1.bind("<Return>", Enter_pressed)
 
-        self.Circle = Button(top)
-        self.Circle.place(relx=0.24, rely=0.04, height=26, width=59)
-        self.Circle.configure(activebackground="#d9d9d9")
-        self.Circle.configure(text='''Circle''')
-        self.Circle.configure(command=PaintWithFriends_support.circleTool)
-
-        self.ScaleSize = Scale(top)
-        self.ScaleSize.place(relx=0.78, rely=0.0, relwidth=0.13, relheight=0.0
-                , height=55)
-        self.ScaleSize.configure(activebackground="#d9d9d9")
-        self.ScaleSize.configure(command=PaintWithFriends_support.scaleSize)
-        self.ScaleSize.configure(font="TkTextFont")
-        self.ScaleSize.configure(from_="1.0")
-        self.ScaleSize.configure(label="Size")
-        self.ScaleSize.configure(orient="horizontal")
-        self.ScaleSize.configure(troughcolor="#d9d9d9")
-
-        self.Line = Button(top)
-        self.Line.place(relx=0.34, rely=0.04, height=26, width=59)
-        self.Line.configure(activebackground="#d9d9d9")
-        self.Line.configure(text='''Line''')
-        self.Line.configure(command=PaintWithFriends_support.lineTool)
-
-        self.ChatBox = Text(top)
-        self.ChatBox.place(relx=0.01, rely=0.13, relheight=0.78, relwidth=0.2)
-        self.ChatBox.configure(background="white")
-        self.ChatBox.configure(font="TkTextFont")
-        self.ChatBox.configure(selectbackground="#c4c4c4")
-        self.ChatBox.configure(width=146)
-        self.ChatBox.configure(wrap=WORD) 
 
 
 
