@@ -64,8 +64,9 @@ class Server:
             username = user.receive(size)
         
         user.nickname = nickname
-        user.send("\nWelcome to \nPaint With Friends, {0}".format(user.nickname))
         user.send(self.state)
+        user.send("$Clear|Chat$")
+        user.send("\nWelcome to \nPaint With Friends, {0}".format(user.nickname))
 
 
         while True:
@@ -87,6 +88,9 @@ class Server:
             if("$Circle" in chatMessage or "$Line" in chatMessage):
                 self.state += chatMessage
                 self.server_broadcast_command(chatMessage, user)
+            elif("$Clear$" in chatMessage):
+                self.server_broadcast_command("$Clear|Canvas|{0}$".format(user.nickname), user)
+                self.state = ''
             else:
                 # print("###{0}###".format(chatMessage))
                 self.server_broadcast(chatMessage, user)

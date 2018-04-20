@@ -96,6 +96,14 @@ def receive():
                                 w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
                         except (ValueError, IndexError):
                             pass
+                    elif tool == "Clear":
+                        target = args[1]
+                        if target == "Chat":
+                            w.ChatBox.delete('1.0', tk.END)
+                        elif target == "Canvas":
+                            culprit = args[2]
+                            w.Canvas1.delete("all")
+                            w.ChatBox.insert(tk.INSERT, "\n>{0} has cleared the canvas!".format(culprit))
                     elif "Line" not in command and "Circle" not in command and '|' not in command:
                         w.ChatBox.insert(tk.INSERT, command)
                         w.ChatBox.see(tk.END)
@@ -189,7 +197,10 @@ def quit():
     sys.stdout.flush()
 
 def clean():
+    global client
     print('attempt_support.clean')
+    w.Canvas1.delete("all")
+    client.toSend += "$Clear$"
     sys.stdout.flush()
 
 def init(top, gui, *args, **kwargs):
