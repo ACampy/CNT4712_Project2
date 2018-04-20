@@ -6,7 +6,7 @@ import getopt
 
 class Server:
 
-    def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3, max_connections=10):
+    def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3, max_connections=10, state_path = ''):
         self.address = (host, port)
         self.max_connections = max_connections # max number of users that can connect to the server
         self.timeout = timeout # server timeout
@@ -14,6 +14,16 @@ class Server:
         self.users = [] # A list of all the users who are connected to the server.
         self.exit_signal = threading.Event()
         self.state = ''
+        self.state_path = state_path
+
+        if self.state_path != '':
+            try:
+                saved_state = open(state_path, "r")
+                self.state = saved_state.read()
+                # print("\nLoaded previous server state from {0}".format(state_path))
+            except FileNotFoundError:
+                print("\nSaved server state file not found, creating new one")
+                self.state = ''
 
         try:
             self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -35,7 +45,11 @@ class Server:
     def start_listening(self, defaultGreeting="\n> Welcome to our chat app!!! What is your full name?\n"):
         self.serverSocket.listen(self.max_connections)
 
-        print("\nListening on {0}:\n\tTimeout - {1}\n\tMax Connections - {2}\n".format(self.address, self.timeout, self.max_connections))
+        print("\nListening on {0}:\n\tTimeout - {1}\n\tMax Connections - {2}".format(self.address, self.timeout, self.max_connections))
+        if self.state_path != '':
+            print("\tState file - {0}".format(self.state_path))
+        print("\n")
+
         try:
             while not self.exit_signal.is_set():
                 try:
@@ -53,9 +67,10 @@ class Server:
         except KeyboardInterrupt:
             self.exit_signal.set()
 
+        print("\nShutting down chat server.\n")
         for client in self.client_thread_list:
             if client.is_alive():
-                client.join()
+                client.join(1)
 
 
     def client_thread(self, user, size=4096):
@@ -67,6 +82,8 @@ class Server:
             username = user.receive(size)
         
         user.nickname = nickname
+        #user.send("$Clear|Chat$")
+        user.send("\n\nPlease wait!\nThe current server state is being loaded!\n")
         user.send(self.state)
         user.send("$Clear|Chat$")
         user.send("Welcome to \nPaint With Friends, {0}".format(user.nickname))
@@ -122,7 +139,12 @@ class Server:
         self.users.remove(user)
 
     def server_shutdown(self):
-        print("Shutting down chat server.\n")
+        for user in self.users:
+            user.send("$QUIT$")
+            user.socket.close()
+        if self.state_path != '': 
+            saved_state = open(self.state_path, "w+")
+            saved_state.write(self.state)
         self.serverSocket.close()
 
 
@@ -131,20 +153,22 @@ def main(argv):
     cFlag = False
     mFlag = False
     tFlag = False
+    lFlag = False
     port = 8300
     maxC = 10
     timeout = 3
     script_dir = os.path.dirname(__file__)
     config = "conf/chatserver.conf"
+    state_path = ''
 
     try:
-        opts, args = getopt.getopt(argv,"hp:c:m:t:",["ifile=","ofile="])
+        opts, args = getopt.getopt(argv,"hp:c:m:t:l:",["ifile=","ofile="])
     except getopt.GetoptError:
-        print ('server.py [-c <configFile>] [-p <port>] [-m <max_connections>] [-t <server_timeout>]')
+        print ('server.py [-c <configFile>] [-p <port>] [-m <max_connections>] [-t <server_timeout>] [-l <state to read/write from>]')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('server.py [-c <configFile>] [-p <port>] [-m <max_connections>] [-t <server_timeout>]')
+            print ('server.py [-c <configFile>] [-p <port>] [-m <max_connections>] [-t <server_timeout>] [-l <state to read/write from>]')
             sys.exit()
         elif opt in ("-p", "--port"):
             pFlag = True
@@ -158,6 +182,9 @@ def main(argv):
         elif opt in ("-t", "--timeout"):
             tFlag = True
             gTime = int(arg)
+        elif opt in ("-l", "--load"):
+            lFlag = True
+            location = arg
 
     # Read and load contents of config
     try:
@@ -177,7 +204,6 @@ def main(argv):
         port = 8300
         maxC = 10
         timeout = 3
-
     
     if pFlag:
         port = gPort
@@ -185,11 +211,16 @@ def main(argv):
         maxC = gMax
     if tFlag:
         timeout = gTime
+    if lFlag:
+        location = "states/" + location
+        state_path = os.path.join(script_dir, location)
 
-    drawServer = Server(socket.gethostbyname('localhost'), port, True, timeout, maxC)
+    drawServer = Server(socket.gethostbyname('localhost'), port, True, timeout, maxC, state_path)
     drawServer.start_listening()
     drawServer.server_shutdown()
+
 if __name__ == "__main__":
     main(sys.argv[1:])
+
 
 

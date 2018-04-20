@@ -107,6 +107,8 @@ def receive():
                             culprit = args[2]
                             w.Canvas1.delete("all")
                             w.ChatBox.insert(tk.INSERT, "\n>{0} has cleared the canvas!\n".format(culprit))
+                    elif tool == "QUIT":
+                        shutdown()
                     elif "Line" not in command and "Circle" not in command and '|' not in command:
                         w.ChatBox.insert(tk.INSERT, command)
                         w.ChatBox.see(tk.END)
@@ -224,6 +226,15 @@ def quit():
         client.disconnect()
     elif not client.isClientConnected:
         tkinter.messagebox.showwarning("Error", "You are not connected to a server.")
+    sys.stdout.flush()
+
+def shutdown():
+    global w
+    print('PaintWithFriends_support.shutdown')
+    w.Canvas1.delete("all")
+    w.ChatBox.delete('1.0', tk.END)
+    client.disconnect()
+    tkinter.messagebox.showinfo("Server Disconnect", "This server has been shut down remotely.")
     sys.stdout.flush()
 
 def clean():
