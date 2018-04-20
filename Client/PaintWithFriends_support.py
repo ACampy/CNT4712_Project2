@@ -17,6 +17,7 @@ try:
     from Tkinter import *
 except ImportError:
     import tkinter as tk
+    import tkinter.messagebox
 
 try:
     import ttk
@@ -54,10 +55,10 @@ class ChatDialog(dialog.BaseDialog):
                 self.result = (host, port)
                 return True
             else:
-                tk.messagebox.showwarning("Error", "The port number has to be between 0 and 65535. Both values are inclusive.")
+                tkinter.messagebox.showwarning("Error", "The port number has to be between 0 and 65535. Both values are inclusive.")
                 return False
         except ValueError:
-            tk.messagebox.showwarning("Error", "The port number has to be an integer.")
+            tkinter.messagebox.showwarning("Error", "The port number has to be an integer.")
             return False
 
 
@@ -82,7 +83,7 @@ def receive():
                 if command != "" and command != "\n":
                     args = command.split("|")
                     tool = args[0]
-                    if tool == "Line" or tool == "Circle":
+                    if tool == "Line" or tool == "Circle" or tool == "SCircle":
                         try:
                             xold = int(args[1])
                             yold = int(args[2])
@@ -94,6 +95,8 @@ def receive():
                                 w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
                             elif (tool == "Circle"):
                                 w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
+                            elif (tool == "SCircle"):
+                                w.Canvas1.create_oval(xold, yold,eventx,eventy, fill = color,width = "0")
                         except (ValueError, IndexError):
                             pass
                     elif tool == "Clear":
@@ -103,7 +106,7 @@ def receive():
                         elif target == "Canvas":
                             culprit = args[2]
                             w.Canvas1.delete("all")
-                            w.ChatBox.insert(tk.INSERT, "\n>{0} has cleared the canvas!".format(culprit))
+                            w.ChatBox.insert(tk.INSERT, "\n>{0} has cleared the canvas!\n".format(culprit))
                     elif "Line" not in command and "Circle" not in command and '|' not in command:
                         w.ChatBox.insert(tk.INSERT, command)
                         w.ChatBox.see(tk.END)
@@ -194,21 +197,21 @@ def connect():
     print('PaintWithFriends_support.connect')
     global client, root, w, top_level
     if client.isClientConnected:
-        print('Already connected!')
+        tkinter.messagebox.showwarning("Error", "Already connected to a server!\nPlease disconnect first and try again.")
     else:
         # client.connect('localhost',50000)
         import tkinter as tk
         dialogResult = ChatDialog(root).result
         if dialogResult:
-            client.connect(dialogResult[0], dialogResult[1])
+            result = client.connect(dialogResult[0], dialogResult[1])
 
-            if client.isClientConnected:
+            if result:
                 sendThread = threading.Thread(target=send)
                 recvThread = threading.Thread(target=receive)
                 sendThread.start()
                 recvThread.start()
             else:
-                tk.messagebox.showwarning("Error", "Unable to connect to the server.")
+                tkinter.messagebox.showwarning("Error", "Unable to connect to the server.")
     sys.stdout.flush()
 
 def quit():
@@ -223,8 +226,9 @@ def quit():
 def clean():
     global client
     print('attempt_support.clean')
-    w.Canvas1.delete("all")
-    client.toSend += "$Clear$"
+    if tkinter.messagebox.askyesno("Clear Canvas", "Are you sure you want to clear the canvas?\nThis cannot be undone!"):
+        w.Canvas1.delete("all")
+        client.toSend += "$Clear$"
     sys.stdout.flush()
 
 def init(top, gui, *args, **kwargs):
@@ -235,10 +239,15 @@ def init(top, gui, *args, **kwargs):
 
 def destroy_window():
     # Function which closes the window.
-    global top_level
+    global top_level, w, root
+    if client.isClientConnected:
+        try:
+            client.send("/Quit")
+        except ConnectionAbortedError:
+            pass
+        client.disconnect()
+    root.destroy()
     top_level = None
-    client.send("/Quit")
-    client.disconnect()
 
 
 if __name__ == '__main__':

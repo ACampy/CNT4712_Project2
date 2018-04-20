@@ -68,17 +68,17 @@ def b1down(event):
     b1 = "down"           # you only want to draw when the button is down
                           # because "Motion" events happen -all the time-
     
-    if toolType == 3:
+    if toolType == 3 and client.isClientConnected:
         xold = event.x
         yold = event.y
         PaintWithFriends_support.sCircleTool2()
-        print ("1")
-    elif toolType == 4:
+        # print ("1")
+    elif toolType == 4 and client.isClientConnected:
         PaintWithFriends_support.sCircleTool()              
         client.toSend += "$SCircle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
-        print("2")
+        # print("2")
         event.widget.create_oval(xold, yold,event.x,event.y, fill = color,width = "0")
-        print ("3")
+        # print ("3")
 
 def b1up(event):
     global b1, xold, yold
@@ -146,6 +146,7 @@ def main():
 
 class New_Toplevel:
     global input_user    
+
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -158,6 +159,7 @@ class New_Toplevel:
         top.geometry("800x450+629+228")
         top.title("Paint With Friends")
         top.configure(highlightcolor="black")
+        top.protocol("WM_DELETE_WINDOW", self.on_exit)
 
         self.menubar = Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
         top.configure(menu = self.menubar)
@@ -316,6 +318,9 @@ class New_Toplevel:
         self.Entry1.configure(font="TkFixedFont")
         self.Entry1.configure(width=156)
         self.Entry1.bind("<Return>", Enter_pressed)
+
+    def on_exit(self):
+            PaintWithFriends_support.destroy_window()
 
 
 

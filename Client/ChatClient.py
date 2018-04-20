@@ -11,11 +11,12 @@ class Client:
             self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.clientSocket.connect((host, port))
             self.isClientConnected = True
+            return True
         except socket.error as errorMessage:
             if errorMessage.errno == socket.error.errno:
-                sys.stderr.write('Connection refused to ' + str(host) + ' on port ' + str(port))
+                return False
             else:
-                sys.stderr.write('Failed to create a client socket: Error - %s\n', errorMessage[1])
+                return False
 
     def disconnect(self):
         if self.isClientConnected:

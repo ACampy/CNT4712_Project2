@@ -6,7 +6,7 @@ import User
 class Server:
     SERVER_CONFIG = {"MAX_CONNECTIONS": 10}
 
-    def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3):
+    def __init__(self, host=socket.gethostbyname('localhost'), port =50001, allowReuseAddress=True, timeout = 3):
         self.address = (host, port)
         self.client_thread_list = [] # A list of all threads that are either running or have finished their task.
         self.users = [] # A list of all the users who are connected to the server.
@@ -59,14 +59,14 @@ class Server:
         user.send("Please select a nickname:")
         nickname = user.receive(size)
 
-        while not nickname and ("$Line" not in nickname or "$Circle" not in nickname):
+        while not nickname or "$Line" in nickname or "$Circle" in nickname or "$SCircle" in nickname:
             user.send("Please select a nickname:")
             username = user.receive(size)
         
         user.nickname = nickname
         user.send(self.state)
         user.send("$Clear|Chat$")
-        user.send("\nWelcome to \nPaint With Friends, {0}".format(user.nickname))
+        user.send("Welcome to \nPaint With Friends, {0}".format(user.nickname))
 
 
         while True:
@@ -85,7 +85,7 @@ class Server:
 
             stripped = chatMessage.strip()
             # print(chatMessage)
-            if("$Circle" in chatMessage or "$Line" in chatMessage):
+            if("$Circle" in chatMessage or "$Line" in chatMessage or "$SCircle" in chatMessage):
                 self.state += chatMessage
                 self.server_broadcast_command(chatMessage, user)
             elif("$Clear$" in chatMessage):
