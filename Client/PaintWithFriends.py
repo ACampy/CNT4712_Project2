@@ -202,29 +202,29 @@ class New_Toplevel:
         self.ButtonBlack.configure(background="#000000")
         self.ButtonBlack.configure(command=PaintWithFriends_support.changeBlack)
         
+        self.ButtonRed = Button(top)
+        self.ButtonRed.place(relx=0.95, rely=0.28, height=26, width=26)
+        self.ButtonRed.configure(activebackground="#d9d9d9")
+        self.ButtonRed.configure(background="#d90000")
+        self.ButtonRed.configure(command=PaintWithFriends_support.changeRed)
+
         self.ButtonBlue = Button(top)
-        self.ButtonBlue.place(relx=0.95, rely=0.28, height=26, width=26)
+        self.ButtonBlue.place(relx=0.95, rely=0.35, height=26, width=26)
         self.ButtonBlue.configure(activebackground="#d9d9d9")
         self.ButtonBlue.configure(background="#0000ff")
         self.ButtonBlue.configure(command=PaintWithFriends_support.changeBlue)
 
         self.ButtonGreen = Button(top)
-        self.ButtonGreen.place(relx=0.95, rely=0.35, height=26, width=26)
+        self.ButtonGreen.place(relx=0.95, rely=0.42, height=26, width=26)
         self.ButtonGreen.configure(activebackground="#d9d9d9")
         self.ButtonGreen.configure(background="#00ff00")
         self.ButtonGreen.configure(command=PaintWithFriends_support.changeGreen)
         
         self.ButtonYellow = Button(top)
-        self.ButtonYellow.place(relx=0.95, rely=0.42, height=26, width=26)
+        self.ButtonYellow.place(relx=0.95, rely=0.49, height=26, width=26)
         self.ButtonYellow.configure(activebackground="#d9d9d9")
         self.ButtonYellow.configure(background="#ffff00")
         self.ButtonYellow.configure(command=PaintWithFriends_support.changeYellow)
-
-        self.ButtonRed = Button(top)
-        self.ButtonRed.place(relx=0.95, rely=0.49, height=26, width=26)
-        self.ButtonRed.configure(activebackground="#d9d9d9")
-        self.ButtonRed.configure(background="#d90000")
-        self.ButtonRed.configure(command=PaintWithFriends_support.changeRed)
 
         self.ButtonCyan = Button(top)
         self.ButtonCyan.place(relx=0.95, rely=0.56, height=26, width=26)
