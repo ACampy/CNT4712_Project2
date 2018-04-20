@@ -9,6 +9,7 @@ class Server:
     def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3, max_connections=10):
         self.address = (host, port)
         self.max_connections = max_connections # max number of users that can connect to the server
+        self.timeout = timeout # server timeout
         self.client_thread_list = [] # A list of all threads that are either running or have finished their task.
         self.users = [] # A list of all the users who are connected to the server.
         self.exit_signal = threading.Event()
@@ -20,7 +21,7 @@ class Server:
             sys.stderr.write("Failed to initialize the server. Error - {0}".format(errorMessage))
             raise
 
-        self.serverSocket.settimeout(timeout)
+        self.serverSocket.settimeout(self.timeout)
 
         if allowReuseAddress:
             self.serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -34,7 +35,7 @@ class Server:
     def start_listening(self, defaultGreeting="\n> Welcome to our chat app!!! What is your full name?\n"):
         self.serverSocket.listen(self.max_connections)
 
-        print("\nListening on {0} with max connections set to {1}\n".format(self.address, self.max_connections))
+        print("\nListening on {0}:\n\tTimeout - {1}\n\tMax Connections - {2}\n".format(self.address, self.timeout, self.max_connections))
         try:
             while not self.exit_signal.is_set():
                 try:
@@ -129,19 +130,21 @@ def main(argv):
     pFlag = False
     cFlag = False
     mFlag = False
+    tFlag = False
     port = 8300
     maxC = 10
+    timeout = 3
     script_dir = os.path.dirname(__file__)
     config = "conf/chatserver.conf"
 
     try:
-        opts, args = getopt.getopt(argv,"hp:c:m:",["ifile=","ofile="])
+        opts, args = getopt.getopt(argv,"hp:c:m:t:",["ifile=","ofile="])
     except getopt.GetoptError:
-        print ('chatServer.py -c <configFile> -d <dbpath> [-p <port>] [--interactive]')
+        print ('server.py [-c <configFile>] [-p <port>] [-m <max_connections>] [-t <server_timeout>]')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('server.py [-c <configFile>] [-p <port>]')
+            print ('server.py [-c <configFile>] [-p <port>] [-m <max_connections>] [-t <server_timeout>]')
             sys.exit()
         elif opt in ("-p", "--port"):
             pFlag = True
@@ -152,6 +155,9 @@ def main(argv):
         elif opt in ("-m", "--max"):
             mFlag = True
             gMax = int(arg)
+        elif opt in ("-t", "--timeout"):
+            tFlag = True
+            gTime = int(arg)
 
     # Read and load contents of config
     try:
@@ -164,18 +170,23 @@ def main(argv):
                     port = int(item[1])
                 elif item[0] == 'max_connections':
                     maxC = int(item[1])
+                elif item[0] == 'timeout':
+                    timeout = int(item[1])
     except FileNotFoundError:
-        print("\nError: Config file not found \nUsing default values for port and max connections")
+        print("\nError: Config file not found \nUsing default values for port, timeout and max connections")
         port = 8300
         maxC = 10
+        timeout = 3
 
     
     if pFlag:
         port = gPort
     if mFlag:
         maxC = gMax
+    if tFlag:
+        timeout = gTime
 
-    drawServer = Server(socket.gethostbyname('localhost'), port, True, 3, maxC)
+    drawServer = Server(socket.gethostbyname('localhost'), port, True, timeout, maxC)
     drawServer.start_listening()
     drawServer.server_shutdown()
 if __name__ == "__main__":
