@@ -152,6 +152,18 @@ def changeYellow():
     print('PaintWithFriends_support.changeYellow')
     sys.stdout.flush()
 
+def changeCyan():
+    global color
+    color = "cyan"
+    print('PaintWithFriends_support.changeCyan')
+    sys.stdout.flush()
+
+def changeMagenta():
+    global color
+    color = "magenta"
+    print('PaintWithFriends_support.changeMagenta')
+    sys.stdout.flush()
+
 def scaleSize(*args): 
     global thicc
     print('PaintWithFriends_support.scaleSize')
