@@ -188,6 +188,10 @@ def quit():
     client.disconnect()
     sys.stdout.flush()
 
+def clean():
+    print('attempt_support.clean')
+    sys.stdout.flush()
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
