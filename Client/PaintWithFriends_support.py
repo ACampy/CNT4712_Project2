@@ -124,6 +124,18 @@ def circleTool():
     print('PaintWithFriends_support.circleTool')
     sys.stdout.flush()
 
+def sCircleTool():
+    global toolType
+    toolType = 3
+    print('PaintWithFriends_support.SCircleTool')
+    sys.stdout.flush()
+
+def sCircleTool2():
+    global toolType
+    toolType = 4
+    print('PaintWithFriends_support.SCircleTool2')
+    sys.stdout.flush()
+
 def changeRed():
     global color
     color = "red"

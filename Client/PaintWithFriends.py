@@ -63,22 +63,37 @@ def Enter_pressed(event):
     return "break"
 
 def b1down(event):
-    global b1
+    from PaintWithFriends_support import toolType, client, color, thicc
+    global b1, xold, yold, toolType
     b1 = "down"           # you only want to draw when the button is down
                           # because "Motion" events happen -all the time-
+    
+    if toolType == 3:
+        xold = event.x
+        yold = event.y
+        PaintWithFriends_support.sCircleTool2()
+        print ("1")
+    elif toolType == 4:
+        PaintWithFriends_support.sCircleTool()              
+        client.toSend += "$SCircle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        print("2")
+        event.widget.create_oval(xold, yold,event.x,event.y, fill = color,width = "0")
+        print ("3")
 
 def b1up(event):
     global b1, xold, yold
     b1 = "up"
-    xold = None           # reset the line when you let go of the button
-    yold = None
+    if toolType != 3:
+        xold = None           # reset the line when you let go of the button
+        yold = None
 
+#Draw Lines
 def motion(event):
     from PaintWithFriends_support import color, thicc, toolType, client
     if b1 == "down" and client.isClientConnected:
         global xold, yold, color
         if xold is not None and yold is not None:
-            if toolType == 1: #line
+            if toolType == 1: #line brush
                 client.toSend += "$Line|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
                 event.widget.create_line(
                     xold,
@@ -90,12 +105,10 @@ def motion(event):
                     width= thicc
                 )
                           # here's where you draw it. smooth. neat.
-            elif toolType == 2: #circle
-                # print(event.x)
-                # print(event.y)
-                # print(thicc)
+            elif toolType == 2: #circle brush
                 client.toSend += "$Circle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
                 event.widget.create_oval(event.x - thicc, event.y - thicc, event.x + thicc, event.y + thicc, fill= color, width = "0")
+            
         xold = event.x
         yold = event.y
 
@@ -277,6 +290,12 @@ class New_Toplevel:
         self.Shapes.configure(relief=GROOVE)
         self.Shapes.configure(text='''Shapes''')
         self.Shapes.configure(width=150)
+
+        self.SCircle = Button(top)
+        self.SCircle.place(relx=0.46, rely=0.05, height=26, width=59)
+        self.SCircle.configure(activebackground="#d9d9d9")
+        self.SCircle.configure(text='''Circle''')
+        self.SCircle.configure(command=PaintWithFriends_support.sCircleTool)
 
         #Chat Widgets ****************************************************************
         self.ChatLabel = Label(top)
