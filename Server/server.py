@@ -1,13 +1,14 @@
 import socket
-import sys
+import sys, os
 import threading
 import User
+import getopt
 
 class Server:
-    SERVER_CONFIG = {"MAX_CONNECTIONS": 10}
 
-    def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3):
+    def __init__(self, host=socket.gethostbyname('localhost'), port =50000, allowReuseAddress=True, timeout = 3, max_connections=10):
         self.address = (host, port)
+        self.max_connections = max_connections # max number of users that can connect to the server
         self.client_thread_list = [] # A list of all threads that are either running or have finished their task.
         self.users = [] # A list of all the users who are connected to the server.
         self.exit_signal = threading.Event()
@@ -31,8 +32,9 @@ class Server:
             raise
 
     def start_listening(self, defaultGreeting="\n> Welcome to our chat app!!! What is your full name?\n"):
-        self.serverSocket.listen(Server.SERVER_CONFIG["MAX_CONNECTIONS"])
+        self.serverSocket.listen(self.max_connections)
 
+        print("\nListening on {0} with max connections set to {1}\n".format(self.address, self.max_connections))
         try:
             while not self.exit_signal.is_set():
                 try:
@@ -123,11 +125,60 @@ class Server:
         self.serverSocket.close()
 
 
-def main():
-    drawServer = Server()
+def main(argv):
+    pFlag = False
+    cFlag = False
+    mFlag = False
+    port = 8300
+    maxC = 10
+    script_dir = os.path.dirname(__file__)
+    config = "conf/chatserver.conf"
+
+    try:
+        opts, args = getopt.getopt(argv,"hp:c:m:",["ifile=","ofile="])
+    except getopt.GetoptError:
+        print ('chatServer.py -c <configFile> -d <dbpath> [-p <port>] [--interactive]')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print ('server.py [-c <configFile>] [-p <port>]')
+            sys.exit()
+        elif opt in ("-p", "--port"):
+            pFlag = True
+            gPort = int(arg)
+        elif opt in ("-c", "--configfile"):
+            cFlag = True
+            config = arg
+        elif opt in ("-m", "--max"):
+            mFlag = True
+            gMax = int(arg)
+
+    # Read and load contents of config
+    try:
+        config_path = os.path.join(script_dir, config)
+        with open(config_path) as conf:
+            content = conf.readlines()
+            for line in content:
+                item = line.strip().split()
+                if item[0] == 'port':
+                    port = int(item[1])
+                elif item[0] == 'max_connections':
+                    maxC = int(item[1])
+    except FileNotFoundError:
+        print("\nError: Config file not found \nUsing default values for port and max connections")
+        port = 8300
+        maxC = 10
+
+    
+    if pFlag:
+        port = gPort
+    if mFlag:
+        maxC = gMax
+
+    drawServer = Server(socket.gethostbyname('localhost'), port, True, 3, maxC)
     drawServer.start_listening()
-    drawServer.server_
+    drawServer.server_shutdown()
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
 
 
