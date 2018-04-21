@@ -46,7 +46,7 @@ def destroy_New_Toplevel():
     w = None
 
 #Drawing line code starts here ***************************************************************
-# color = "black"
+#color = "black"
 b1 = "up"
 xold, yold = None, None
 input_user = ''
@@ -68,7 +68,7 @@ def b1down(event):
     b1 = "down"           # you only want to draw when the button is down
                           # because "Motion" events happen -all the time-
     
-    if toolType == 3 and client.isClientConnected:
+    if toolType == 3 and client.isClientConnected:  #Circle stamp
         xold = event.x
         yold = event.y
         PaintWithFriends_support.sCircleTool2()
@@ -77,15 +77,35 @@ def b1down(event):
         PaintWithFriends_support.sCircleTool()              
         client.toSend += "$SCircle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
         # print("2")
-        event.widget.create_oval(xold, yold,event.x,event.y, fill = color,width = "0")
+        event.widget.create_oval(xold, yold,event.x,event.y, fill = color,width = '0')
         # print ("3")
+    elif toolType == 5 and client.isClientConnected:    #Rectangle Stamp
+        xold = event.x
+        yold = event.y
+        PaintWithFriends_support.sRectTool2()
+    elif toolType == 6 and client.isClientConnected:
+        PaintWithFriends_support.sRectTool()              
+        #client.toSend += "$SRect|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        # print("2")
+        event.widget.create_rectangle(xold, yold,event.x,event.y, fill = color,width = '0')
+    elif toolType == 7 and client.isClientConnected:    #Line Stamp
+        xold = event.x
+        yold = event.y
+        PaintWithFriends_support.sLineTool2()
+    elif toolType == 8 and client.isClientConnected:
+        PaintWithFriends_support.sLineTool()              
+        #client.toSend += "$SLine|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        print(xold, yold, event.x, event.y)
+        event.widget.create_line(xold, yold, event.x, event.y, fill = color,width = thicc)
 
 def b1up(event):
-    global b1, xold, yold
+    global b1, xold, yold, toolType
     b1 = "up"
-    if toolType != 3:
+    #if (toolType != 3 or toolType != 5 or toolType != 7):
+    if toolType == 1 or toolType == 2 or toolType == 4 or toolType == 6 or toolType == 8:
         xold = None           # reset the line when you let go of the button
         yold = None
+
 
 #Draw Lines
 def motion(event):
@@ -107,7 +127,7 @@ def motion(event):
                           # here's where you draw it. smooth. neat.
             elif toolType == 2: #circle brush
                 client.toSend += "$Circle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
-                event.widget.create_oval(event.x - thicc, event.y - thicc, event.x + thicc, event.y + thicc, fill= color, width = "0")
+                event.widget.create_oval(event.x - thicc/2 , event.y - thicc/2 , event.x + thicc/2 , event.y + thicc/2 , fill= color, width = "0")
             
         xold = event.x
         yold = event.y
@@ -127,25 +147,8 @@ def main():
     
 #Drawing code ends here ********************************************************************
 
-
-#Circle tool********************************************************************************
-#t= ttk.Tk()
-
-# def createCircle(self, x, y, r, **kwargs):
-    
-#     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
-#     Canvas.create_circle = createCircle
-
-#Circle ends here **************************************************************************
-
-#Draw line
-# def drawLine():
-#     Canvas1 = Canvas()
-#     Canvas1.create_line(15, 25, 200, 25, color = "red")
-#     print("draw line")
-
 class New_Toplevel:
-    global input_user    
+    global input_user, color    
 
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
@@ -242,17 +245,25 @@ class New_Toplevel:
         self.ButtonYellow.configure(background="#ffff00")
         self.ButtonYellow.configure(command=PaintWithFriends_support.changeYellow)
 
-        self.ButtonCyan = Button(top)
-        self.ButtonCyan.place(relx=0.95, rely=0.56, height=26, width=26)
-        self.ButtonCyan.configure(activebackground="#d9d9d9")
-        self.ButtonCyan.configure(background="cyan")
-        self.ButtonCyan.configure(command=PaintWithFriends_support.changeCyan)
+        self.ButtonPick = Button(top)
+        self.ButtonPick.place(relx=0.95, rely=0.56, height=26, width=26)
+        self.ButtonPick.configure(activebackground="#d9d9d9")
+        self.ButtonPick.configure(background="#000000")
+        self._img1 = PhotoImage(file="rainbow-gradient.png")
+        self.ButtonPick.configure(image=self._img1)
+        self.ButtonPick.configure(command=PaintWithFriends_support.changePick)
 
-        self.ButtonMagenta = Button(top)
-        self.ButtonMagenta.place(relx=0.95, rely=0.63, height=26, width=26)
-        self.ButtonMagenta.configure(activebackground="#d9d9d9")
-        self.ButtonMagenta.configure(background="magenta")
-        self.ButtonMagenta.configure(command=PaintWithFriends_support.changeMagenta)
+        # self.ButtonCyan = Button(top)
+        # self.ButtonCyan.place(relx=0.95, rely=0.56, height=26, width=26)
+        # self.ButtonCyan.configure(activebackground="#d9d9d9")
+        # self.ButtonCyan.configure(background="cyan")
+        # self.ButtonCyan.configure(command=PaintWithFriends_support.changeCyan)
+
+        # self.ButtonMagenta = Button(top)
+        # self.ButtonMagenta.place(relx=0.95, rely=0.63, height=26, width=26)
+        # self.ButtonMagenta.configure(activebackground="#d9d9d9")
+        # self.ButtonMagenta.configure(background="magenta")
+        # self.ButtonMagenta.configure(command=PaintWithFriends_support.changeMagenta)
 
         #Scale Slider Widget ******************************************************
         self.ScaleSize = Scale(top)
@@ -296,9 +307,20 @@ class New_Toplevel:
         self.SCircle = Button(top)
         self.SCircle.place(relx=0.46, rely=0.05, height=26, width=59)
         self.SCircle.configure(activebackground="#d9d9d9")
-        self.SCircle.configure(text='''Circle''')
+        self.SCircle.configure(text='''Oval''')
         self.SCircle.configure(command=PaintWithFriends_support.sCircleTool)
 
+        self.SRect = Button(top)
+        self.SRect.place(relx=0.55, rely=0.05, height=26, width=70)
+        self.SRect.configure(activebackground="#d9d9d9")
+        self.SRect.configure(text='''Rectangle''')
+        self.SRect.configure(command=PaintWithFriends_support.sRectTool)
+
+        self.SLine = Button(top)
+        self.SLine.place(relx=0.65, rely=0.05, height=26, width=59)
+        self.SLine.configure(activebackground="#d9d9d9")
+        self.SLine.configure(text='''Line''')
+        self.SLine.configure(command=PaintWithFriends_support.sLineTool)
         #Chat Widgets ****************************************************************
         self.ChatLabel = Label(top)
         self.ChatLabel.place(relx=0.01, rely=0.09, height=18, width=36)

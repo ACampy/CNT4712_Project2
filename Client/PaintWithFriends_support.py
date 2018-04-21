@@ -27,6 +27,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+from tkinter.colorchooser import *
 
 color = "black"     #default color
 thicc = 1           #default thiccness
@@ -141,6 +142,30 @@ def sCircleTool2():
     print('PaintWithFriends_support.SCircleTool2')
     sys.stdout.flush()
 
+def sRectTool():
+    global toolType
+    toolType = 5
+    print('PaintWithFriends_support.sRectTool')
+    sys.stdout.flush()
+
+def sRectTool2():
+    global toolType
+    toolType = 6
+    print ('PaintWithFriends_support.sRectTool2')
+    sys.stdout.flush()
+
+def sLineTool():
+    global toolType
+    toolType = 7
+    print('PaintWithFriends_support.sLineTool')
+    sys.stdout.flush()
+
+def sLineTool2():
+    global toolType
+    toolType = 8
+    print('PaintWithFriends_support.sLineTool2')
+    sys.stdout.flush()
+
 def changeRed():
     global color
     color = "red"
@@ -186,6 +211,12 @@ def changeCyan():
 def changeMagenta():
     global color
     color = "magenta"
+    print('PaintWithFriends_support.changeMagenta')
+    sys.stdout.flush()
+
+def changePick():
+    global color
+    _, color = askcolor()
     print('PaintWithFriends_support.changeMagenta')
     sys.stdout.flush()
 
