@@ -79,13 +79,33 @@ def b1down(event):
         # print("2")
         event.widget.create_oval(xold, yold,event.x,event.y, fill = color,width = "0")
         # print ("3")
+    elif toolType == 5 and client.isClientConnected:
+        xold = event.x
+        yold = event.y
+        PaintWithFriends_support.sRectTool2()
+    elif toolType == 6 and client.isClientConnected:
+        PaintWithFriends_support.sRectTool()              
+        client.toSend += "$SRect|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        # print("2")
+        event.widget.create_rectangle(xold, yold,event.x,event.y, fill = color,width = "0")
+    elif toolType == 7 and client.isClientConnected:
+        xold = event.x
+        yold = event.y
+        PaintWithFriends_support.sLineTool2()
+    elif toolType == 8 and client.isClientConnected:
+        PaintWithFriends_support.sLineTool()              
+        client.toSend += "$SLine|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        print(xold, yold, event.x, event.y)
+        event.widget.create_line(xold, yold, event.x, event.y, fill = color,width = "0")
 
 def b1up(event):
-    global b1, xold, yold
+    global b1, xold, yold, toolType
     b1 = "up"
-    if toolType != 3:
+    #if (toolType != 3 or toolType != 5 or toolType != 7):
+    if toolType == 1 or toolType == 2 or toolType == 4 or toolType == 6 or toolType == 8:
         xold = None           # reset the line when you let go of the button
         yold = None
+
 
 #Draw Lines
 def motion(event):

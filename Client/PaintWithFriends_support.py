@@ -147,10 +147,22 @@ def sRectTool():
     print('PaintWithFriends_support.sRectTool')
     sys.stdout.flush()
 
+def sRectTool2():
+    global toolType
+    toolType = 6
+    print ('PaintWithFriends_support.sRectTool2')
+    sys.stdout.flush()
+
 def sLineTool():
     global toolType
     toolType = 7
     print('PaintWithFriends_support.sLineTool')
+    sys.stdout.flush()
+
+def sLineTool2():
+    global toolType
+    toolType = 8
+    print('PaintWithFriends_support.sLineTool2')
     sys.stdout.flush()
 
 def changeRed():
