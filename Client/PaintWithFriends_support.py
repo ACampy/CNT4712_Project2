@@ -98,7 +98,7 @@ def receive():
                             if(tool == "Line"):
                                 w.Canvas1.create_line(xold, yold, eventx, eventy, smooth=1, fill=color, width=thick)
                             elif (tool == "Circle"):
-                                w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
+                                w.Canvas1.create_oval(eventx - thick/2, eventy - thick/2, eventx + thick/2, eventy + thick/2, fill=color, width = "0")
                             elif (tool == "SCircle"):
                                 w.Canvas1.create_oval(xold, yold,eventx,eventy, fill = color,width = "0")
                             elif (tool == "SRect"):
