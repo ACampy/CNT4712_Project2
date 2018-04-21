@@ -217,7 +217,7 @@ def changeMagenta():
 def changePick():
     global color
     _, color = askcolor()
-    print('PaintWithFriends_support.changeMagenta')
+    print('PaintWithFriends_support.changePick')
     sys.stdout.flush()
 
 def scaleSize(*args): 
