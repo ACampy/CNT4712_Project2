@@ -141,6 +141,12 @@ def sCircleTool2():
     print('PaintWithFriends_support.SCircleTool2')
     sys.stdout.flush()
 
+def sRectTool():
+    global toolType
+    toolType = 5
+    print('PaintWithFriends_support.sRectTool')
+    sys.stdout.flush()
+
 def changeRed():
     global color
     color = "red"

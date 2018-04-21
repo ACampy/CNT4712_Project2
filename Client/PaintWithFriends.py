@@ -299,6 +299,11 @@ class New_Toplevel:
         self.SCircle.configure(text='''Circle''')
         self.SCircle.configure(command=PaintWithFriends_support.sCircleTool)
 
+        self.SRect = Button(top)
+        self.SRect.place(relx=0.55, rely=0.05, height=26, width=66)
+        self.SRect.configure(activebackground="#d9d9d9")
+        self.SRect.configure(text='''Rectangle''')
+        self.SRect.configure(command=PaintWithFriends_support.sRectTool)
         #Chat Widgets ****************************************************************
         self.ChatLabel = Label(top)
         self.ChatLabel.place(relx=0.01, rely=0.09, height=18, width=36)
