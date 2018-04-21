@@ -63,8 +63,9 @@ Client
         enter a username via the chat window. After entering this nickname, the client will pause and render all
         the drawing that has already been done on the server by other users. This process may take some time, so 
         please be patient. Once the canvas has been rendered, a user can use several drawing tools and colors to 
-        draw on the canvas. Any drawings done by a user will be transmitted to all other users. A user can also 
-        communicate with other users on the same server by typing into the chat on the left.
+        draw on the canvas. The rainbow button on the bottom left allows a user to use a more fleshed out color 
+        picker. Any drawings done by a user will be transmitted to all other users. A user can also communicate with 
+        other users on the same server by typing into the chat on the left.
 
         If a user would like the entirely wipe the canvas clean, there is an option to do so on the top. This option
         will ask for a user's confirmation before initiating the wipe, and will inform all other users via chat who 
