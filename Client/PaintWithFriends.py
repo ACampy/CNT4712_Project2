@@ -46,7 +46,7 @@ def destroy_New_Toplevel():
     w = None
 
 #Drawing line code starts here ***************************************************************
-# color = "black"
+#color = "black"
 b1 = "up"
 xold, yold = None, None
 input_user = ''
@@ -148,7 +148,7 @@ def main():
 #Drawing code ends here ********************************************************************
 
 class New_Toplevel:
-    global input_user    
+    global input_user, color    
 
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
@@ -248,7 +248,9 @@ class New_Toplevel:
         self.ButtonPick = Button(top)
         self.ButtonPick.place(relx=0.95, rely=0.56, height=26, width=26)
         self.ButtonPick.configure(activebackground="#d9d9d9")
-        self.ButtonPick.configure(background="#d9d9d9")
+        self.ButtonPick.configure(background="#000000")
+        self._img1 = PhotoImage(file="rainbow-gradient.png")
+        self.ButtonPick.configure(image=self._img1)
         self.ButtonPick.configure(command=PaintWithFriends_support.changePick)
 
         # self.ButtonCyan = Button(top)
