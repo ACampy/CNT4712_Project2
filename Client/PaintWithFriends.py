@@ -127,7 +127,7 @@ def motion(event):
                           # here's where you draw it. smooth. neat.
             elif toolType == 2: #circle brush
                 client.toSend += "$Circle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
-                event.widget.create_oval(event.x - thicc, event.y - thicc, event.x + thicc, event.y + thicc, fill= color, width = "0")
+                event.widget.create_oval(event.x - thicc/2 , event.y - thicc/2 , event.x + thicc/2 , event.y + thicc/2 , fill= color, width = "0")
             
         xold = event.x
         yold = event.y
