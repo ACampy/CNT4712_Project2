@@ -223,7 +223,7 @@ def changeMagenta():
 
 def changePick():
     global color
-    _, color = askcolor()
+    _, color = colorchooser.askcolor()
     print('PaintWithFriends_support.changePick')
     sys.stdout.flush()
 
