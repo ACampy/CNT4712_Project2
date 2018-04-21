@@ -16,5 +16,8 @@ class User:
             pass
 
     def receive(self, size):
-        response = self.socket.recv(size)
+        try:
+            response = self.socket.recv(size)
+        except ConnectionAbortedError:
+            response = ''.encode('utf8')
         return response.decode('utf8')
