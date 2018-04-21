@@ -82,6 +82,7 @@ class Server:
         user.send(self.state)
         user.send("$Clear|Chat$")
         user.send("Welcome to \nPaint With Friends, {0}".format(user.nickname))
+        self.server_broadcast_command("\n>{0} has joined the server!\n".format(user.nickname), user)
 
 
         while True:
@@ -135,7 +136,6 @@ class Server:
 
     def server_shutdown(self):
         for user in self.users:
-            print ("HERE!\n")
             user.send("$QUIT$")
             user.socket.close()
         if self.state_path != '': 
@@ -211,7 +211,7 @@ def main(argv):
         location = "states/" + location
         state_path = os.path.join(script_dir, location)
 
-    drawServer = Server(socket.gethostbyname('localhost'), port, True, timeout, maxC, state_path)
+    drawServer = Server(socket.gethostbyname("localhost"), port, True, timeout, maxC, state_path)
     drawServer.start_listening()
 
 if __name__ == "__main__":
