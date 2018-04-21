@@ -68,7 +68,7 @@ def b1down(event):
     b1 = "down"           # you only want to draw when the button is down
                           # because "Motion" events happen -all the time-
     
-    if toolType == 3 and client.isClientConnected:
+    if toolType == 3 and client.isClientConnected:  #Circle stamp
         xold = event.x
         yold = event.y
         PaintWithFriends_support.sCircleTool2()
@@ -77,26 +77,26 @@ def b1down(event):
         PaintWithFriends_support.sCircleTool()              
         client.toSend += "$SCircle|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
         # print("2")
-        event.widget.create_oval(xold, yold,event.x,event.y, fill = color,width = "0")
+        event.widget.create_oval(xold, yold,event.x,event.y, fill = color,width = '0')
         # print ("3")
-    elif toolType == 5 and client.isClientConnected:
+    elif toolType == 5 and client.isClientConnected:    #Rectangle Stamp
         xold = event.x
         yold = event.y
         PaintWithFriends_support.sRectTool2()
     elif toolType == 6 and client.isClientConnected:
         PaintWithFriends_support.sRectTool()              
-        client.toSend += "$SRect|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        #client.toSend += "$SRect|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
         # print("2")
-        event.widget.create_rectangle(xold, yold,event.x,event.y, fill = color,width = "0")
-    elif toolType == 7 and client.isClientConnected:
+        event.widget.create_rectangle(xold, yold,event.x,event.y, fill = color,width = '0')
+    elif toolType == 7 and client.isClientConnected:    #Line Stamp
         xold = event.x
         yold = event.y
         PaintWithFriends_support.sLineTool2()
     elif toolType == 8 and client.isClientConnected:
         PaintWithFriends_support.sLineTool()              
-        client.toSend += "$SLine|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        #client.toSend += "$SLine|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
         print(xold, yold, event.x, event.y)
-        event.widget.create_line(xold, yold, event.x, event.y, fill = color,width = "0")
+        event.widget.create_line(xold, yold, event.x, event.y, fill = color,width = thicc)
 
 def b1up(event):
     global b1, xold, yold, toolType
