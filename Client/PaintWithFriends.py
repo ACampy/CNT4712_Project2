@@ -249,6 +249,7 @@ class New_Toplevel:
         self.ButtonPick.place(relx=0.95, rely=0.56, height=26, width=26)
         self.ButtonPick.configure(activebackground="#d9d9d9")
         self.ButtonPick.configure(background="#000000")
+        self.ButtonPick.configure(cursor="question_arrow")
         self._img1 = PhotoImage(file="rainbow-gradient.png")
         self.ButtonPick.configure(image=self._img1)
         self.ButtonPick.configure(command=PaintWithFriends_support.changePick)
