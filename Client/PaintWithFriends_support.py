@@ -26,6 +26,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+from tkinter.colorchooser import *
 
 color = "black"     #default color
 thicc = 1           #default thiccness
@@ -210,6 +211,12 @@ def changeCyan():
 def changeMagenta():
     global color
     color = "magenta"
+    print('PaintWithFriends_support.changeMagenta')
+    sys.stdout.flush()
+
+def changePick():
+    global color
+    _, color = askcolor()
     print('PaintWithFriends_support.changeMagenta')
     sys.stdout.flush()
 

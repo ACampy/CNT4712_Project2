@@ -245,17 +245,23 @@ class New_Toplevel:
         self.ButtonYellow.configure(background="#ffff00")
         self.ButtonYellow.configure(command=PaintWithFriends_support.changeYellow)
 
-        self.ButtonCyan = Button(top)
-        self.ButtonCyan.place(relx=0.95, rely=0.56, height=26, width=26)
-        self.ButtonCyan.configure(activebackground="#d9d9d9")
-        self.ButtonCyan.configure(background="cyan")
-        self.ButtonCyan.configure(command=PaintWithFriends_support.changeCyan)
+        self.ButtonPick = Button(top)
+        self.ButtonPick.place(relx=0.95, rely=0.56, height=26, width=26)
+        self.ButtonPick.configure(activebackground="#d9d9d9")
+        self.ButtonPick.configure(background="#d9d9d9")
+        self.ButtonPick.configure(command=PaintWithFriends_support.changePick)
 
-        self.ButtonMagenta = Button(top)
-        self.ButtonMagenta.place(relx=0.95, rely=0.63, height=26, width=26)
-        self.ButtonMagenta.configure(activebackground="#d9d9d9")
-        self.ButtonMagenta.configure(background="magenta")
-        self.ButtonMagenta.configure(command=PaintWithFriends_support.changeMagenta)
+        # self.ButtonCyan = Button(top)
+        # self.ButtonCyan.place(relx=0.95, rely=0.56, height=26, width=26)
+        # self.ButtonCyan.configure(activebackground="#d9d9d9")
+        # self.ButtonCyan.configure(background="cyan")
+        # self.ButtonCyan.configure(command=PaintWithFriends_support.changeCyan)
+
+        # self.ButtonMagenta = Button(top)
+        # self.ButtonMagenta.place(relx=0.95, rely=0.63, height=26, width=26)
+        # self.ButtonMagenta.configure(activebackground="#d9d9d9")
+        # self.ButtonMagenta.configure(background="magenta")
+        # self.ButtonMagenta.configure(command=PaintWithFriends_support.changeMagenta)
 
         #Scale Slider Widget ******************************************************
         self.ScaleSize = Scale(top)
