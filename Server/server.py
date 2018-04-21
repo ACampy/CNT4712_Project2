@@ -158,7 +158,7 @@ def main(argv):
     maxC = 10
     timeout = 3
     script_dir = os.path.dirname(__file__)
-    config = "conf/chatserver.conf"
+    config = "conf/drawserver.conf"
     state_path = ''
 
     try:
