@@ -253,6 +253,7 @@ class New_Toplevel:
         self.ButtonPick.configure(activebackground="#d9d9d9")
         self.ButtonPick.configure(background="#000000")
         self._img1 = PhotoImage(file=rainbow_button)
+        self.ButtonPick.configure(cursor="question_arrow")
         self.ButtonPick.configure(image=self._img1)
         self.ButtonPick.configure(command=PaintWithFriends_support.changePick)
 
