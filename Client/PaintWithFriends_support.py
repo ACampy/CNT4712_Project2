@@ -14,11 +14,14 @@ import ChatClient as clientClass
 import BaseDialog as dialog
 
 try:
-    from Tkinter import *
+    import Tkinter as tk
+    import tkSimpleDialog as simpledialog
+    import tkColorChooser as colorchooser
 except ImportError:
     import tkinter as tk
     import tkinter.messagebox
-    import tkinter.simpledialog
+    import tkinter.simpledialog as simpledialog
+    import tkinter.colorchooser as colorchooser
 
 try:
     import ttk
@@ -27,7 +30,7 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
-from tkinter.colorchooser import *
+
 
 color = "black"     #default color
 thicc = 1           #default thiccness
@@ -78,13 +81,13 @@ def receive():
     while True:
         if client.isClientConnected: 
             message = client.receive(4096)
-            print(message)
+            # print(message)
             commands = message.split("$")
             for command in commands:
                 if command != "" and command != "\n":
                     args = command.split("|")
                     tool = args[0]
-                    if tool == "Line" or tool == "Circle" or tool == "SCircle":
+                    if tool == "Line" or tool == "Circle" or "S" in tool:
                         try:
                             xold = int(args[1])
                             yold = int(args[2])
@@ -98,6 +101,10 @@ def receive():
                                 w.Canvas1.create_oval(eventx - thick, eventy - thick, eventx + thick, eventy + thick, fill=color, width = "0")
                             elif (tool == "SCircle"):
                                 w.Canvas1.create_oval(xold, yold,eventx,eventy, fill = color,width = "0")
+                            elif (tool == "SRect"):
+                                w.Canvas1.create_rectangle(xold, yold,eventx,eventy, fill = color,width = '0')
+                            elif (tool == "SLine"):
+                                w.Canvas1.create_line(xold, yold, eventx, eventy, fill = color,width = thick)
                         except (ValueError, IndexError):
                             pass
                     elif tool == "Clear":
@@ -110,7 +117,7 @@ def receive():
                             w.ChatBox.insert(tk.INSERT, "\n>{0} has cleared the canvas!\n".format(culprit))
                     elif tool == "QUIT":
                         shutdown()
-                    elif "Line" not in command and "Circle" not in command and '|' not in command:
+                    elif "Line" not in command and "Circle" not in command and '|' not in command and "S" not in command:
                         w.ChatBox.insert(tk.INSERT, command)
                         w.ChatBox.see(tk.END)
 
@@ -216,7 +223,7 @@ def changeMagenta():
 
 def changePick():
     global color
-    _, color = askcolor()
+    _, color = colorchooser.askcolor()
     print('PaintWithFriends_support.changeMagenta')
     sys.stdout.flush()
 
@@ -237,15 +244,14 @@ def connect():
         tkinter.messagebox.showwarning("Error", "Already connected to a server!\nPlease disconnect first and try again.")
     else:
         # client.connect('localhost',50000)
-        import tkinter as tk
         dialogResult = ChatDialog(root).result
         if dialogResult:
             result = client.connect(dialogResult[0], dialogResult[1])
 
             if result:
-                answer = tkinter.simpledialog.askstring("Input", "Please provide a nickname", parent=root)
+                answer = simpledialog.askstring("Input", "Please provide a nickname", parent=root)
                 while answer is None:
-                    answer = tkinter.simpledialog.askstring("Input", "Please provide a nickname", parent=root)
+                    answer = simpledialog.askstring("Input", "Please provide a nickname", parent=root)
                 client.toSend = answer
 
             else:

@@ -100,7 +100,7 @@ class Server:
 
             stripped = chatMessage.strip()
             # print(chatMessage)
-            if("$Circle" in chatMessage or "$Line" in chatMessage or "$SCircle" in chatMessage):
+            if("$Circle" in chatMessage or "$Line" in chatMessage or "$S" in chatMessage):
                 self.state += chatMessage
                 self.server_broadcast_command(chatMessage, user)
             elif("$Clear$" in chatMessage):

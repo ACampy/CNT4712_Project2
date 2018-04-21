@@ -1,4 +1,8 @@
-import tkinter as tk
+try:
+    import Tkinter as tk
+except ImportError:
+    import tkinter as tk
+
 
 class BaseDialog(tk.Toplevel):
 

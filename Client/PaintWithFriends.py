@@ -4,7 +4,7 @@
 # In conjunction with Tcl version 8.6
 #    Apr 09, 2018 06:06:25 PM
 
-import sys
+import sys, os
 
 try:
     from Tkinter import *
@@ -85,7 +85,7 @@ def b1down(event):
         PaintWithFriends_support.sRectTool2()
     elif toolType == 6 and client.isClientConnected:
         PaintWithFriends_support.sRectTool()              
-        #client.toSend += "$SRect|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        client.toSend += "$SRect|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
         # print("2")
         event.widget.create_rectangle(xold, yold,event.x,event.y, fill = color,width = '0')
     elif toolType == 7 and client.isClientConnected:    #Line Stamp
@@ -94,7 +94,7 @@ def b1down(event):
         PaintWithFriends_support.sLineTool2()
     elif toolType == 8 and client.isClientConnected:
         PaintWithFriends_support.sLineTool()              
-        #client.toSend += "$SLine|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
+        client.toSend += "$SLine|{0}|{1}|{2}|{3}|{4}|{5}$".format(xold,yold,event.x,event.y,color,thicc)
         print(xold, yold, event.x, event.y)
         event.widget.create_line(xold, yold, event.x, event.y, fill = color,width = thicc)
 
@@ -245,11 +245,14 @@ class New_Toplevel:
         self.ButtonYellow.configure(background="#ffff00")
         self.ButtonYellow.configure(command=PaintWithFriends_support.changeYellow)
 
+
+        script_dir = os.path.dirname(__file__)
+        rainbow_button = os.path.join(script_dir, "rainbow-gradient.png")
         self.ButtonPick = Button(top)
         self.ButtonPick.place(relx=0.95, rely=0.56, height=26, width=26)
         self.ButtonPick.configure(activebackground="#d9d9d9")
         self.ButtonPick.configure(background="#000000")
-        self._img1 = PhotoImage(file="rainbow-gradient.png")
+        self._img1 = PhotoImage(file=rainbow_button)
         self.ButtonPick.configure(image=self._img1)
         self.ButtonPick.configure(command=PaintWithFriends_support.changePick)
 
