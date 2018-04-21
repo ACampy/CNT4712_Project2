@@ -147,6 +147,12 @@ def sRectTool():
     print('PaintWithFriends_support.sRectTool')
     sys.stdout.flush()
 
+def sLineTool():
+    global toolType
+    toolType = 7
+    print('PaintWithFriends_support.sLineTool')
+    sys.stdout.flush()
+
 def changeRed():
     global color
     color = "red"

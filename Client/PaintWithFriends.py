@@ -127,23 +127,6 @@ def main():
     
 #Drawing code ends here ********************************************************************
 
-
-#Circle tool********************************************************************************
-#t= ttk.Tk()
-
-# def createCircle(self, x, y, r, **kwargs):
-    
-#     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
-#     Canvas.create_circle = createCircle
-
-#Circle ends here **************************************************************************
-
-#Draw line
-# def drawLine():
-#     Canvas1 = Canvas()
-#     Canvas1.create_line(15, 25, 200, 25, color = "red")
-#     print("draw line")
-
 class New_Toplevel:
     global input_user    
 
@@ -296,14 +279,20 @@ class New_Toplevel:
         self.SCircle = Button(top)
         self.SCircle.place(relx=0.46, rely=0.05, height=26, width=59)
         self.SCircle.configure(activebackground="#d9d9d9")
-        self.SCircle.configure(text='''Circle''')
+        self.SCircle.configure(text='''Oval''')
         self.SCircle.configure(command=PaintWithFriends_support.sCircleTool)
 
         self.SRect = Button(top)
-        self.SRect.place(relx=0.55, rely=0.05, height=26, width=66)
+        self.SRect.place(relx=0.55, rely=0.05, height=26, width=70)
         self.SRect.configure(activebackground="#d9d9d9")
         self.SRect.configure(text='''Rectangle''')
         self.SRect.configure(command=PaintWithFriends_support.sRectTool)
+
+        self.SLine = Button(top)
+        self.SLine.place(relx=0.65, rely=0.05, height=26, width=59)
+        self.SLine.configure(activebackground="#d9d9d9")
+        self.SLine.configure(text='''Line''')
+        self.SLine.configure(command=PaintWithFriends_support.sLineTool)
         #Chat Widgets ****************************************************************
         self.ChatLabel = Label(top)
         self.ChatLabel.place(relx=0.01, rely=0.09, height=18, width=36)
