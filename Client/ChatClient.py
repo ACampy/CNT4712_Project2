@@ -20,8 +20,8 @@ class Client:
 
     def disconnect(self):
         if self.isClientConnected:
-            self.clientSocket.close()
             self.isClientConnected = False
+            self.clientSocket.close()
 
     def send(self, data):
         if not self.isClientConnected:
@@ -32,5 +32,9 @@ class Client:
     def receive(self, size=4096):
         if not self.isClientConnected:
             return ""
-
-        return self.clientSocket.recv(size).decode('utf8')
+        answer = ''
+        try:
+            answer = self.clientSocket.recv(size).decode('utf8')
+        except OSError:
+            pass
+        return answer

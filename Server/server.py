@@ -68,19 +68,14 @@ class Server:
             self.exit_signal.set()
 
         print("\nShutting down chat server.\n")
+        self.server_shutdown()
         for client in self.client_thread_list:
             if client.is_alive():
                 client.join(1)
 
 
     def client_thread(self, user, size=4096):
-        user.send("Please select a nickname:")
         nickname = user.receive(size)
-
-        while not nickname or "$Line" in nickname or "$Circle" in nickname or "$SCircle" in nickname:
-            user.send("Please select a nickname:")
-            username = user.receive(size)
-        
         user.nickname = nickname
         #user.send("$Clear|Chat$")
         user.send("\n\nPlease wait!\nThe current server state is being loaded!\n")
@@ -140,6 +135,7 @@ class Server:
 
     def server_shutdown(self):
         for user in self.users:
+            print ("HERE!\n")
             user.send("$QUIT$")
             user.socket.close()
         if self.state_path != '': 
@@ -217,7 +213,6 @@ def main(argv):
 
     drawServer = Server(socket.gethostbyname('localhost'), port, True, timeout, maxC, state_path)
     drawServer.start_listening()
-    drawServer.server_shutdown()
 
 if __name__ == "__main__":
     main(sys.argv[1:])

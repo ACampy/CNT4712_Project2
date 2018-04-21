@@ -12,7 +12,7 @@ class User:
     def send(self, message):
         try:
             self.socket.sendall((message+'\n').encode('utf8'))
-        except (ConnectionResetError, BrokenPipeError):
+        except (ConnectionResetError, BrokenPipeError, ConnectionAbortedError):
             pass
 
     def receive(self, size):

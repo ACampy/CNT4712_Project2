@@ -18,6 +18,7 @@ try:
 except ImportError:
     import tkinter as tk
     import tkinter.messagebox
+    import tkinter.simpledialog
 
 try:
     import ttk
@@ -65,19 +66,18 @@ class ChatDialog(dialog.BaseDialog):
 def send():
     global client
     # clear send buffer on new connection
-    client.toSend = ""
-    while client.isClientConnected:
-        if client.toSend != "":
+    # client.toSend = ""
+    while True:
+        if client.isClientConnected and client.toSend != "":
             client.send(client.toSend)
             client.toSend = ""
 
 def receive():
     global client, top_level, w, root
-    while client.isClientConnected:
-        r, _, _ = select.select([client.clientSocket], [], [])
-        # print(message)
-        if r:
+    while True:
+        if client.isClientConnected: 
             message = client.receive(4096)
+            print(message)
             commands = message.split("$")
             for command in commands:
                 if command != "" and command != "\n":
@@ -195,9 +195,13 @@ def scaleSize(*args):
     thicc = int(args[0])
     sys.stdout.flush()
 
+sendThread = threading.Thread(target=send)
+recvThread = threading.Thread(target=receive)
+sendThread.start()
+recvThread.start()
 def connect():
     print('PaintWithFriends_support.connect')
-    global client, root, w, top_level
+    global client, root, w, top_level, recvThread, sendThread
     if client.isClientConnected:
         tkinter.messagebox.showwarning("Error", "Already connected to a server!\nPlease disconnect first and try again.")
     else:
@@ -208,16 +212,17 @@ def connect():
             result = client.connect(dialogResult[0], dialogResult[1])
 
             if result:
-                sendThread = threading.Thread(target=send)
-                recvThread = threading.Thread(target=receive)
-                sendThread.start()
-                recvThread.start()
+                answer = tkinter.simpledialog.askstring("Input", "Please provide a nickname", parent=root)
+                while answer is None:
+                    answer = tkinter.simpledialog.askstring("Input", "Please provide a nickname", parent=root)
+                client.toSend = answer
+
             else:
                 tkinter.messagebox.showwarning("Error", "Unable to connect to the server.")
     sys.stdout.flush()
 
 def quit():
-    global w
+    global w, recvThread, sendThread
     print('PaintWithFriends_support.quit')
     if client.isClientConnected and tkinter.messagebox.askyesno("Disconnect", "Are you sure you want to disconnect?"):
         client.send("/Quit")
@@ -255,13 +260,15 @@ def init(top, gui, *args, **kwargs):
 
 def destroy_window():
     # Function which closes the window.
-    global top_level, w, root
+    global top_level, w, root, sendThread, recvThread
     if client.isClientConnected:
         try:
             client.send("/Quit")
         except ConnectionAbortedError:
             pass
         client.disconnect()
+    recvThread.join(1)
+    sendThread.join(1)
     root.destroy()
     top_level = None
 
