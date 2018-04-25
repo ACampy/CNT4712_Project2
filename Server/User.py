@@ -10,7 +10,14 @@ class User:
         self.isAdmin = True
 
     def send(self, message):
-        self.socket.sendall((message+'\n').encode('utf8'))
+        try:
+            self.socket.sendall((message+'\n').encode('utf8'))
+        except (ConnectionResetError, BrokenPipeError, ConnectionAbortedError):
+            pass
 
     def receive(self, size):
-        return self.socket.recv(size).decode('utf8')
+        try:
+            response = self.socket.recv(size)
+        except ConnectionAbortedError:
+            response = ''.encode('utf8')
+        return response.decode('utf8')
